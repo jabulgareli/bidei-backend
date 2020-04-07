@@ -16,11 +16,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-<<<<<<< HEAD
       - gradle build -x test
-=======
-      - gradle build
->>>>>>> origin/master
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
