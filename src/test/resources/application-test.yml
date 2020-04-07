@@ -7,11 +7,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
   liquibase:
     enabled: false
-
-iugu:
-  url: https://api.iugu.com
-  accountId: A719D5FE96BD4C5BB94CC687B971CE4B
-  apiToken: 20c12ee9757292c9ae2f58a02e9b4b0f
-  test: true
