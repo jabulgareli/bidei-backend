@@ -1,0 +1,1 @@
+insert into customer (id, name, email, phone, city_id, reference_id, provider) values ('42a6884d-ab07-40fb-9aae-34db64fa4b0f', 'Cesar Pizolato', 'cesar@dryve.com.br', '016993690799', 3543402, 'BhhZZvMphWYukBmud6WM3VPgjCt1', 'BIDEI');

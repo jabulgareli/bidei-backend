@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://service-stag-instance-uno.c5f4ngzuwxcp.us-east-2.rds.amazonaws.com:5432/dryve?currentSchema=bidei_dev
+    username: bidei_user
+    password: 'S48ThE_-eUrH,b6='
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    enabled: false
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+kbb:
+  url: https://api.kbb.com.br
+  securityToken: 3z2gKg5uduO0nzBY6G0sTZmrmaBp1N3A/vonho4Go4M=
+  language: pt-BR
+
+iugu:
+  url: https://api.iugu.com
+  accountId: A719D5FE96BD4C5BB94CC687B971CE4B
+  apiToken: 20c12ee9757292c9ae2f58a02e9b4b0f
+  test: true
+
+google:
+  key: AIzaSyCuFBwSnNd6Qkg5Jp9EhG5xnO2oTb7zvXs
+  mapsUrl: https://maps.googleapis.com/maps
+
+aws:
+  s3PhotoBucket: public-dev-backend.bidei.com.br
+  s3PhotoBucketUrl: https://s3.us-east-2.amazonaws.com/public-dev-backend.bidei.com.br/
+  s3PhotoBucketRegion: US_EAST_2
+  s3AccessKey: AKIA3TDGBS4DNE5VYJTB
+  s3AccessSecret: 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
+
+firebase:
+  type: "service_account"
+  project_id: "fit-reducer-272412"
+  private_key_id: "657e0358f36cb682c0cdcb3e3d371e5748805091"
+  private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDBRi/IUU5Ffd47\n2FLIpsKsuuybxTiQhmQr8cyy9VlCRUjMpPJW7C9akFOlsTAAAm3gM8uy8JA/d4I0\nrwL6mRZNkaGU07YVBstKGtK1VKP0fE/jmzTaXF1AifeT7K2z0ZBhqfs5y1j4YQV+\nMiK0AoBkTaS8/4eoBcYeJIvaq64LSQcvNXvcw3hRKhiIk69Cj3oQSKdUmnXdbHVM\n8y0pNmlm1A/HX6A0GI2qdAbWAsOEFi0xHysFXwTP6DVvmZtzwJ8KKcJOl0Jqkvba\neQgWg8KKHI2wKg//zgla4XGX+/iIodfSfLxYs2zRUKJ5zo9XOu+S3eMBHRY7vtpk\n5lA341N7AgMBAAECggEAWWGAD3+qVvDSqZJtFmYoeYEokxEuC4hbIwd7xvc4BDHO\nbPWLLS+k5pkAVgwPSrHU5m6NsX8W9oLqMDsPgZzyd4T12MHf3vF5ahflgf5WpGYo\n+/V3B9TXO1WSrVIzMomj38agbCXiS1tzEt1UtzLA9aICoXT643VoHeCA3OuwXX7l\nxv/o/3Y5Yebpg7V+nIQrbtx2cedrnyLnNGI2COcMmy8ghSVtD91CCK7Atw6msNU/\nmB3qZ48YW4JqlCE0r+t3jVkVP8z261mFQOImJpENjSnLERZMlTOpw6zzzog8LJB9\nu8jOQtdQQ2pM/QZtUWAZyJ/HpwdAB8r7Xi/a0jbk4QKBgQDzTHHWP7ZeQiAEWXDR\nJ6/sXtsLjTb9qHCQhr5YroIYTC/pE/1L9edPO1tWnpydZjb5+4gxIITW9AZQLJFu\nEbM1jkX929O3lMa3r0UAelltcPqH3JOYeCIkDf7E1PtspWCKUDSUC+XFJ72w893u\nHVzRweBk84nyYGY4rfvVYQSwBQKBgQDLXTEuwg3N3oT/uJ8l/E6K3PrTKy2ROJyP\n8UWrRG8kp/A9o7DUhOvui+A4KGc3HZojDEGTk3tXXEgDrpN40ZSHT30rdKvEeOGg\n5Ibqg4qwvfuJvQHCM8cRmZdv0LgV3WeHlePt9CsMW1YxJhe8FoPYnZZ5oxbQWENa\ncvGznezNfwKBgBfc+51kCmMcYT+L9kDNf7fTZfCwHSCsEL5cOPdBxojTkC9wQnvc\n1p8y1zabwAjAKcxDG4yV//GFZckfVfRR0B4EomDP2ug6s3L4we/WEEdnuWrx+5gM\n0Gxw4vgzW6XAYsOuMjoDILpBt51Pjgj44E3CklvUd0dKpTwR9I1tQqRxAoGAPb3A\nZdrCiCMrq9uobcbpLZ2jhSMRxYozdjwhE7tGJxHZjU06LXthid3rqAEUPRZ+qm9Z\nJW3cP4yjzIJfAYpXlrEaZmwYjiDJF6jqER74p2o2iP3aH9TKdlx0Lp1mljTO7soi\nFidQPoMoaumOwSrwwn4tpiZOkdiKMla9bPPgZg8CgYEAvFa4DiGFUV6Umld8BNmm\nrZnAIV5/5G9e5L9DDPLmJposY4nlGW+SOh+zI+KO7EIpTh5oLk8OnZQeB2N+zSDu\nTugK4JWea7GIKvkSq1szk9JSUd9lIazDOnl15aigPiLzHI4Olx9LDCX7PVxBo3ID\nit74FLMFvS76oDa/sSMPp9I=\n-----END PRIVATE KEY-----\n"
+  client_email: "firebase-adminsdk-onu58@fit-reducer-272412.iam.gserviceaccount.com"
+  client_id: "107360016221572106314"
+  auth_uri: "https://accounts.google.com/o/oauth2/auth"
+  token_uri: "https://oauth2.googleapis.com/token"
+  auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+  client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-onu58%40fit-reducer-272412.iam.gserviceaccount.com"

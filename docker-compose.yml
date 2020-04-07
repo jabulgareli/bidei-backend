@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  postgres:
+    image: "postgres:11"
+    container_name: "postgres_bidei"
+    ports:
+      - "54320:5432"
+    environment:
+      POSTGRES_USER: bidei
+      POSTGRES_PASSWORD: bidei
+      POSTGRES_DB: bidei
+    volumes:
+      - my_dbdata:/var/lib/postgresql/data
+
+volumes:
+  my_dbdata:

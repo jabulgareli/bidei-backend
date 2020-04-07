@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: bidei
+    password: bidei
+  jpa:
+    hibernate:
+      ddl-auto: update
+  liquibase:
+    enabled: false
+
+iugu:
+  url: https://api.iugu.com
+  accountId: A719D5FE96BD4C5BB94CC687B971CE4B
+  apiToken: 20c12ee9757292c9ae2f58a02e9b4b0f
+  test: true

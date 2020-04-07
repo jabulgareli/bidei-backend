@@ -1,0 +1,1 @@
+insert into wallet_customer (id, bids, created_at, reference_id, customer_id) values ('82a393cb-7b62-499a-b60e-5492e06851ed', 0, NOW(), '765E6785A8964B3DB8F430B036F78CB0', '42a6884d-ab07-40fb-9aae-34db64fa4b0f');

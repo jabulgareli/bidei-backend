@@ -1,0 +1,56 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 202003231512
+      author: cesarpizolato
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: ./inserts/insert-state.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 202003231520
+      author: cesarpizolato
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: ./inserts/insert-city.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 202003252121
+      author: cesarpizolato
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: ./inserts/insert-customer.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+        - sqlFile:
+              encoding: UTF-8
+              endDelimiter: \nGO
+              path: ./inserts/insert-customer-wallet.sql
+              relativeToChangelogFile: true
+              splitStatements: true
+              stripComments: true
+
+  - changeSet:
+      id: 202004030015
+      author: joaobulgareli
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: ./inserts/insert-bid-values.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
