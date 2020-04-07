@@ -1,14 +1,17 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:54320/bidei
-    username: bidei
-    password: bidei
+    url: jdbc:postgresql://service-stag-instance-uno.c5f4ngzuwxcp.us-east-2.rds.amazonaws.com:5432/dryve?currentSchema=bidei_dev
+    username: bidei_user
+    password: 'S48ThE_-eUrH,b6='
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
-    enabled: true
+    enabled: false
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 
