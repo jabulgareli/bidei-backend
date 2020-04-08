@@ -13,8 +13,8 @@ data class CreateOrUpdateAuctionDto(
         @get:Min(message = "cityId is empty", value = 1)
         val cityId: Long? = 0,
         @get:NotNull(message = "endDate is empty")
+        //        @get:FutureOrPresent
         val endDate: Date? = null,
-//        @get:FutureOrPresent
         val photos: MutableList<String>? = arrayListOf(),
         @get:Min(message = "startPrice is empty", value = 1)
         val startPrice: BigDecimal? = null,
