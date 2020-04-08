@@ -3,6 +3,7 @@ package br.com.bidei.auction.application.dto
 import br.com.bidei.utils.DateUtils
 import java.math.BigDecimal
 import java.util.*
+import javax.validation.constraints.FutureOrPresent
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
@@ -13,7 +14,7 @@ data class CreateOrUpdateAuctionDto(
         @get:Min(message = "cityId is empty", value = 1)
         val cityId: Long? = 0,
         @get:NotNull(message = "endDate is empty")
-        //        @get:FutureOrPresent
+        @get:FutureOrPresent
         val endDate: Date? = null,
         val photos: MutableList<String>? = arrayListOf(),
         @get:Min(message = "startPrice is empty", value = 1)
