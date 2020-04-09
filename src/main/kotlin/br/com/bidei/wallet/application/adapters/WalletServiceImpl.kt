@@ -9,7 +9,10 @@ import br.com.bidei.wallet.application.ports.WalletService
 import br.com.bidei.wallet.application.ports.WalletStatementService
 import br.com.bidei.wallet.domain.dto.*
 import br.com.bidei.wallet.domain.model.WalletCustomer
+import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -59,6 +62,9 @@ class WalletServiceImpl(
         walletCustomer.chargeWallet(walletBalanceDebitDto.bids.negate())
         walletCustomerRepository.save(walletCustomer)
     }
+
+    override fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletStatement> =
+            walletStatementService.listWalletTransactionsByCustomer(verifyOrCreateWalletAccount(customerId).id!!, pageable)
 
     private fun chargeWalletWhenCard(walletCustomer: WalletCustomer, walletCardChargeDto: WalletCardChargeDto, walletChargeResponseDto: WalletChargeResponseDto) {
         walletStatementService.newRecordCardTransaction(walletCustomer, walletCardChargeDto, walletChargeResponseDto)

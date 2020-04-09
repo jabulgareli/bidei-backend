@@ -7,7 +7,10 @@ import br.com.bidei.wallet.domain.dto.WalletChargeResponseDto
 import br.com.bidei.wallet.domain.model.WalletCustomer
 import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletStatementRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class WalletStatementServiceImpl(
@@ -44,5 +47,8 @@ class WalletStatementServiceImpl(
                 )
         )
     }
+
+    override fun listWalletTransactionsByCustomer(walletCustomerId: UUID, pageable: Pageable) =
+            walletStatementRepository.findByWalletCustomerId(walletCustomerId, pageable)
 
 }

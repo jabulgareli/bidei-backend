@@ -7,28 +7,31 @@ import br.com.bidei.bid.domain.model.BidValue
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.validation.Valid
 
 
 interface BidController {
     @PostMapping("api/v1/bid")
-    fun create(customerId: UUID, newBidDto: NewBidDto): ResponseEntity<Void>
+    fun create(@RequestHeader customerId: UUID,
+               @Valid @RequestBody newBidDto: NewBidDto): ResponseEntity<Void>
+
     @GetMapping("/public/api/v1/bid/values/{productType}")
-    fun getBidValuesByProductType(productType: AuctionProductType): ResponseEntity<List<BidValue>>
+    fun getBidValuesByProductType(@PathVariable productType: AuctionProductType): ResponseEntity<List<BidValue>>
+
     @GetMapping("api/v1/bid/auction/{auctionId}/customer/{customerId}")
-    fun findByCustomerIdAndAuctionId(customerId: UUID,
-                                     auctionId: UUID,
-                                     page: Int,
-                                     sortBy: String,
-                                     direction: String,
-                                     perPage: Int): ResponseEntity<Page<Bid>>
+    fun findByCustomerIdAndAuctionId(@PathVariable customerId: UUID,
+                                     @PathVariable auctionId: UUID,
+                                     @RequestParam(value = "page", defaultValue = "0") page: Int,
+                                     @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
+                                     @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
+                                     @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<Bid>>
+
     @GetMapping("api/v1/bid/auction/{auctionId}")
-    fun findByAuctionId(auctionId: UUID,
-                        page: Int,
-                        sortBy: String,
-                        direction: String,
-                        perPage: Int): ResponseEntity<Page<Bid>>
+    fun findByAuctionId(@PathVariable auctionId: UUID,
+                        @RequestParam(value = "page", defaultValue = "0") page: Int,
+                        @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
+                        @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
+                        @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<Bid>>
 }
