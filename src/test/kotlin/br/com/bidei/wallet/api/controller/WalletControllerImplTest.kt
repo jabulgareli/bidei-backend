@@ -3,6 +3,7 @@ package br.com.bidei.wallet.api.controller
 import br.com.bidei.acl.ports.IntegrationsPaymentsAclPort
 import br.com.bidei.address.domain.repository.CitiesRepository
 import br.com.bidei.address.domain.repository.StatesRepository
+import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.customers.domain.repository.CustomersRepository
 import br.com.bidei.factories.*
 import br.com.bidei.integrations.payments.infrastructure.config.IuguConfig
@@ -40,7 +41,8 @@ internal class WalletControllerImplTest(
         @Autowired private val citiesRepository: CitiesRepository,
         @Autowired private val customersRepository: CustomersRepository,
         @Autowired private val walletCustomerRepository: WalletCustomerRepository,
-        @Autowired private val walletStatementRepository: WalletStatementRepository
+        @Autowired private val walletStatementRepository: WalletStatementRepository,
+        @Autowired private val auctionRepository: AuctionRepository
 ) {
 
     private inline fun <reified T> Gson.fromJson(json: String?) = fromJson<T>(json, object: TypeToken<T>() {}.type)
@@ -50,6 +52,7 @@ internal class WalletControllerImplTest(
 
     @BeforeEach
     fun setUp() {
+        auctionRepository.deleteAll()
         walletStatementRepository.deleteAll()
         walletCustomerRepository.deleteAll()
         customersRepository.deleteAll()

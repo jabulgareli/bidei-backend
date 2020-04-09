@@ -4,6 +4,7 @@ import br.com.bidei.address.domain.model.City
 import br.com.bidei.address.domain.model.State
 import br.com.bidei.address.domain.repository.CitiesRepository
 import br.com.bidei.address.domain.repository.StatesRepository
+import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.customers.domain.dto.CustomerDto
 import br.com.bidei.customers.domain.dto.CustomerUpdateDto
 import br.com.bidei.customers.domain.model.Customer
@@ -11,6 +12,7 @@ import br.com.bidei.customers.domain.repository.CustomersRepository
 import br.com.bidei.factories.CityFactory
 import br.com.bidei.factories.CustomerFactory
 import br.com.bidei.factories.StateFactory
+import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
 import com.google.gson.Gson
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,11 +36,15 @@ internal class CustomersControllerImplTest(
         @Autowired private val citiesRepository: CitiesRepository,
         @Autowired private val statesRepository: StatesRepository,
         @Autowired private val gson: Gson,
-        @Autowired private val mockMvc: MockMvc
+        @Autowired private val mockMvc: MockMvc,
+        @Autowired private val auctionRepository: AuctionRepository,
+        @Autowired private val walletCustomerRepository: WalletCustomerRepository
 ) {
 
     @BeforeEach
     fun setUp() {
+        walletCustomerRepository.deleteAll()
+        auctionRepository.deleteAll()
         customersRepository.deleteAll()
         citiesRepository.deleteAll()
         statesRepository.deleteAll()

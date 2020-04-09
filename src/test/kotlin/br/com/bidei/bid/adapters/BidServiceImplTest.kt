@@ -8,6 +8,7 @@ import br.com.bidei.bid.domain.repository.BidRepository
 import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.customers.domain.repository.CustomersRepository
 import br.com.bidei.factories.*
+import br.com.bidei.integrations.payments.infrastructure.dto.IuguChargeRequest
 import br.com.bidei.utils.DateUtils
 import br.com.bidei.wallet.domain.exceptions.InsufficientBalanceOnWalletException
 import br.com.bidei.wallet.domain.model.WalletStatement
@@ -23,7 +24,10 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.math.BigDecimal
 import java.util.*
 
@@ -48,6 +52,7 @@ class BidServiceImplTest(@Autowired val bidService: BidService) {
     private val bidRequest = BidFactory.newValidBidRequest()
     private val bid = Bid(auction = auction, customer = customer, value = BidFactory.defaultBid, priceOnBid = auction.startPrice, createdDate = DateUtils.utcNow())
 
+
     @BeforeEach
     fun setUp(){
         given(auctionRepository.findById(AuctionFactory.validAuctionId)).willReturn(Optional.of(auction))
@@ -61,18 +66,6 @@ class BidServiceImplTest(@Autowired val bidService: BidService) {
 
         given(auctionRepository.acceptBid(auction.id!!, bidRequest.value!!, bidRequest.currentPrice!!)).willReturn(1)
 
-    }
-
-    @Test
-    fun `When bid an auction wallet will be debited and auction value incremented`(){
-//        wallet.chargeWallet(BigDecimal.ONE)
-//        bidService.newBid(bidRequest)
-//
-//        then(auctionRepository).should().acceptBid(auction.id!!, bid.value, auction.startPrice)
-//        then(walletCustomerRepository).should().save(wallet)
-//
-//        assertEquals(wallet.bids, BigDecimal.ZERO)
-//        assertEquals(auction.currentPrice, bidRequest.currentPrice?.plus(bidRequest.value!!))
     }
 
     @Test
