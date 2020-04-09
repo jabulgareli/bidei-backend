@@ -5,6 +5,7 @@ import br.com.bidei.acl.ports.IntegrationsPaymentsAclPort
 import br.com.bidei.cross.services.EntityOwnerServiceBase
 import br.com.bidei.integrations.payments.infrastructure.config.IuguConfig
 import br.com.bidei.integrations.payments.infrastructure.dto.*
+import br.com.bidei.utils.DateUtils
 import br.com.bidei.wallet.application.ports.WalletService
 import br.com.bidei.wallet.application.ports.WalletStatementService
 import br.com.bidei.wallet.domain.dto.*
@@ -12,6 +13,7 @@ import br.com.bidei.wallet.domain.model.WalletCustomer
 import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -63,8 +65,16 @@ class WalletServiceImpl(
         walletCustomerRepository.save(walletCustomer)
     }
 
-    override fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletStatement> =
-            walletStatementService.listWalletTransactionsByCustomer(verifyOrCreateWalletAccount(customerId).id!!, pageable)
+    override fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletTransactionsPerDateDto> {
+        val wallet = verifyOrCreateWalletAccount(customerId)
+        val statements = walletStatementService.listWalletTransactionsByCustomer(wallet.id!!, pageable)
+
+        val aggregate = statements.groupBy { t -> DateUtils.dateWithoutTime(t.createdAt!!) }
+                .map { t -> WalletTransactionsPerDateDto(t.key,
+                                                         t.value.map { t -> WalletTransactionDto.Map.fromWalletStatement(t) })}
+        return PageImpl(aggregate, pageable, aggregate.size.toLong())
+    }
+
 
     private fun chargeWalletWhenCard(walletCustomer: WalletCustomer, walletCardChargeDto: WalletCardChargeDto, walletChargeResponseDto: WalletChargeResponseDto) {
         walletStatementService.newRecordCardTransaction(walletCustomer, walletCardChargeDto, walletChargeResponseDto)

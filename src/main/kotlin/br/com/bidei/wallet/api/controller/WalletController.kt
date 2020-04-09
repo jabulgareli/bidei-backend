@@ -1,9 +1,6 @@
 package br.com.bidei.wallet.api.controller
 
-import br.com.bidei.wallet.domain.dto.CreateCardDto
-import br.com.bidei.wallet.domain.dto.PaymentMethodsDto
-import br.com.bidei.wallet.domain.dto.WalletCardChargeDto
-import br.com.bidei.wallet.domain.dto.WalletChargeResponseDto
+import br.com.bidei.wallet.domain.dto.*
 import br.com.bidei.wallet.domain.model.WalletStatement
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
@@ -21,7 +18,7 @@ interface WalletController {
                                          @RequestParam(value = "page", defaultValue = "0") page: Int,
                                          @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
                                          @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
-                                         @RequestParam(value = "perPage", defaultValue = "5") perPage: Int): ResponseEntity<Page<WalletStatement>>
+                                         @RequestParam(value = "perPage", defaultValue = "5") perPage: Int): ResponseEntity<Page<WalletTransactionsPerDateDto>>
 
     @PostMapping("/payment-methods")
     fun createPaymentMethods(@RequestHeader("customerId") customerId: UUID, @RequestBody createCardDto: CreateCardDto): ResponseEntity<Unit>

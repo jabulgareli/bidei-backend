@@ -4,6 +4,7 @@ import br.com.bidei.wallet.application.ports.WalletService
 import br.com.bidei.wallet.domain.dto.CreateCardDto
 import br.com.bidei.wallet.domain.dto.WalletCardChargeDto
 import br.com.bidei.wallet.domain.dto.WalletChargeResponseDto
+import br.com.bidei.wallet.domain.dto.WalletTransactionsPerDateDto
 import br.com.bidei.wallet.domain.model.WalletStatement
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -24,7 +25,7 @@ class WalletControllerImpl(
                                                   page: Int,
                                                   sortBy: String,
                                                   direction: String,
-                                                  perPage: Int): ResponseEntity<Page<WalletStatement>> {
+                                                  perPage: Int): ResponseEntity<Page<WalletTransactionsPerDateDto>> {
         var pageRequest = if (direction.toUpperCase() == "DESC") {
             PageRequest.of(page, perPage, Sort.by(sortBy).descending())
         } else {

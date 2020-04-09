@@ -12,5 +12,5 @@ interface WalletService {
     fun removeCard(customerId: UUID, paymentMethodId: String)
     fun newCardTransaction(walletCardChargeDto: WalletCardChargeDto): WalletChargeResponseDto
     fun newBalanceDebitTransaction(walletBalanceDebitDto: WalletBalanceDebitDto)
-    fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletStatement>
+    fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletTransactionsPerDateDto>
 }
