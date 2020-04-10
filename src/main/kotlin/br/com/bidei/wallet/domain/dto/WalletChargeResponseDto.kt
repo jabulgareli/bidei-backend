@@ -4,6 +4,7 @@ import br.com.bidei.integrations.payments.infrastructure.dto.IuguChargeResponse
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
+import java.math.BigDecimal
 
 data class WalletChargeResponseDto(
         val message: String,

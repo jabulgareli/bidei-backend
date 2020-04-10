@@ -7,5 +7,9 @@ data class WalletBalanceDebitDto (
         val customerId: UUID,
         val bids: BigDecimal = BigDecimal.ONE,
         val source: WalletChargeEnum = WalletChargeEnum.BALANCE,
-        val operationDescription: String = "Bid realizado"
-)
+        val operationDescription: String = "BID realizado"
+){
+    fun getAmount(): BigDecimal{
+        return bids.negate()
+    }
+}

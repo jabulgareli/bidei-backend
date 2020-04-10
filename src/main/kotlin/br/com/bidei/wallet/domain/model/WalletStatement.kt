@@ -31,5 +31,9 @@ data class WalletStatement(
 
         val transactionCode: String,
 
-        val bids: BigDecimal
+        val bids: BigDecimal,
+
+        val operationDescription: String? = "n/a",
+
+        val amount: BigDecimal? = BigDecimal.ZERO
 )

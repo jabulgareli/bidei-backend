@@ -28,7 +28,9 @@ class WalletStatementServiceImpl(
                         pdf = walletChargeResponseDto.pdf,
                         invoiceId = walletChargeResponseDto.invoiceId,
                         transactionCode = walletChargeResponseDto.LR,
-                        bids = walletCardChargeDto.getBidsQuantity()
+                        bids = walletCardChargeDto.getBidsQuantity(),
+                        amount = walletCardChargeDto.getAmount(),
+                        operationDescription = walletCardChargeDto.operationDescription
                 ))
     }
 
@@ -43,7 +45,9 @@ class WalletStatementServiceImpl(
                         pdf = "",
                         transactionCode = "",
                         source = walletBalanceDebitDto.source.name,
-                        url = ""
+                        url = "",
+                        amount = walletBalanceDebitDto.getAmount(),
+                        operationDescription = walletBalanceDebitDto.operationDescription
                 )
         )
     }
