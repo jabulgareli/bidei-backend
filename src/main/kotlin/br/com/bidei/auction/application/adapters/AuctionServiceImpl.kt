@@ -24,6 +24,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
 import java.util.*
 
@@ -35,15 +36,17 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                          private val fileUploadServicePort: FileUploadServicePort
                         ) : AuctionService, EntityOwnerServiceBase<Auction, UUID>() {
 
-
+    @Transactional
     override fun create(auctionDto: CreateOrUpdateAuctionDto): AuctionDto =
             convertAuctionToDto(auctionRepository.save(loadAuctionFromDto(auctionDto)))
 
+    @Transactional
     override fun update(customerId: UUID, auctionDto: CreateOrUpdateAuctionDto): AuctionDto {
         checkOwner(auctionDto.id!!, customerId)
         return convertAuctionToDto(auctionRepository.save(loadAuctionFromDto(auctionDto)))
     }
 
+    @Transactional
     override fun acceptBid(auction: Auction, bid: BigDecimal, currentPrice: BigDecimal) {
         val updatedRecords = auctionRepository.acceptBid(auction.id!!, auction.currentPrice?.plus(bid)!!, currentPrice)
 
@@ -77,6 +80,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
     override fun getById(id: UUID): Auction =
             auctionRepository.findById(id).orElseThrow{ AuctionNotFoundException() }
 
+    @Transactional
     override fun finish(customerId: UUID,
                         id: UUID): AuctionDto {
         checkOwner(id, customerId)
@@ -90,6 +94,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
         return convertAuctionToDto(auctionRepository.save(auction))
     }
 
+    @Transactional
     override fun addPhoto(customerId: UUID,
                           id: UUID,
                           photoDto: AuctionPhotoDto): AuctionDto {
@@ -112,6 +117,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
         return update(customerId, convertAuctionToCreateDto(auction))
     }
 
+    @Transactional
     override fun removePhoto(customerId: UUID,
                              id: UUID,
                              photoName: String): AuctionDto {
