@@ -47,4 +47,10 @@ class CustomersServiceImpl(
         return CustomerProviderDto(customer.get().provider)
     }
 
+    override fun findByReferenceId(referenceId: String): Customer {
+        val customer = customersRepository.findByReferenceId(referenceId)
+        if (!customer.isPresent) throw CustomerNotFoundException()
+        return customer.get()
+    }
+
 }

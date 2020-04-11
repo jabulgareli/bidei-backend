@@ -11,7 +11,8 @@ import java.util.*
 
 @RestController
 class CustomersControllerImpl(
-        private val customersService: CustomersService) : CustomersController {
+        private val customersService: CustomersService
+) : CustomersController {
 
     override fun create( customer: CustomerDto) = ResponseEntity.ok(customersService.create(customer))
 
@@ -21,5 +22,7 @@ class CustomersControllerImpl(
     }
 
     override fun findByEmail(email: String) = customersService.findByEmail(email)
+
+    override fun findByReferenceId(referenceId: String) = customersService.findByReferenceId(referenceId)
 
 }
