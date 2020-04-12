@@ -36,7 +36,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                          private val addressAcl: AddressAclPort,
                          private val gson: Gson,
                          private val fileUploadServicePort: FileUploadServicePort
-                        ) : AuctionService, EntityOwnerServiceBase<Auction, UUID>() {
+) : AuctionService, EntityOwnerServiceBase<Auction, UUID>() {
 
     @Transactional
     override fun create(auctionDto: CreateOrUpdateAuctionDto): AuctionDto =
@@ -77,10 +77,10 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 .map(::convertAuctionToDto)
     }
 
-    override fun getAuctionDtoById(id: UUID) = convertAuctionToDto(auctionRepository.findById(id).orElseThrow{ AuctionNotFoundException() })
+    override fun getAuctionDtoById(id: UUID) = convertAuctionToDto(auctionRepository.findById(id).orElseThrow { AuctionNotFoundException() })
 
     override fun getById(id: UUID): Auction =
-            auctionRepository.findById(id).orElseThrow{ AuctionNotFoundException() }
+            auctionRepository.findById(id).orElseThrow { AuctionNotFoundException() }
 
     @Transactional
     override fun finish(customerId: UUID,
@@ -109,7 +109,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
 
         val uploadedUrl = fileUploadServicePort.uploadImage(photoDto.image!!, photoPath)
 
-        if(photos == null)
+        if (photos == null)
             photos = mutableListOf()
 
         photos.add(uploadedUrl)
@@ -165,13 +165,15 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 auctionDto.manuallyFinishedAt,
                 auctionDto.createdDate,
                 auctionDto.currentPrice,
-                AuctionProductType.CAR)
+                AuctionProductType.CAR,
+                gson.toJson(auctionDto.carCharacteristics),
+                auctionDto.carIsArmored)
     }
 
     override fun getByCustomerId(customerId: UUID, onlyOpen: Boolean, pageable: Pageable): Page<AuctionDto> {
-       var spec: Specification<Auction>? = AuctionSpecifications.withCustomerId(customerId)
+        var spec: Specification<Auction>? = AuctionSpecifications.withCustomerId(customerId)
 
-        spec = if(onlyOpen)
+        spec = if (onlyOpen)
             spec?.and(AuctionSpecifications.isOpen())
         else
             spec?.and(AuctionSpecifications.isExpired())?.or(AuctionSpecifications.isManuallyFinished())
@@ -201,7 +203,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.createdDate,
                     auction.currentPrice,
                     auction.productType,
-                    gson.fromJson(auction.carCharacteristics, jsonListOfStringType))
+                    gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
+                    auction.carIsArmored)
 
     override fun convertAuctionToCreateDto(auction: Auction) =
             CreateOrUpdateAuctionDto(auction.id,
@@ -224,7 +227,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.createdDate,
                     auction.currentPrice,
                     AuctionProductType.CAR,
-                    gson.fromJson(auction.carCharacteristics, jsonMapOfStringType))
+                    gson.fromJson(auction.carCharacteristics, jsonMapOfStringType),
+                    auction.carIsArmored)
 
     private fun getPathPhoto(id: UUID, name: String) =
             "auctions/${id}/" + name.replace(".png", "") + ".png"
