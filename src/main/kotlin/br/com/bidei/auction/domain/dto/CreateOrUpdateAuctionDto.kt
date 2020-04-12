@@ -1,5 +1,6 @@
-package br.com.bidei.auction.application.dto
+package br.com.bidei.auction.domain.dto
 
+import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.utils.DateUtils
 import java.math.BigDecimal
 import java.util.*
@@ -36,7 +37,10 @@ data class CreateOrUpdateAuctionDto(
         val carOptions: List<String>? = emptyList(),
         @get:NotEmpty(message = "carTransmission is empty")
         val carTransmission: String? = null,
-        val carConditions: MutableMap<String, String>? = mutableMapOf(),
+        val carConditions: ArrayList<AuctionCarOptionDto> = arrayListOf(),
         val manuallyFinishedAt: Date? = null,
         val createdDate: Date? = DateUtils.utcNow(),
-        val currentPrice: BigDecimal? = startPrice)
+        val currentPrice: BigDecimal? = startPrice,
+        val productType: AuctionProductType? = AuctionProductType.CAR,
+        val carCharacteristics: List<String>? = emptyList(),
+        val carIsArmored: Boolean? = false)

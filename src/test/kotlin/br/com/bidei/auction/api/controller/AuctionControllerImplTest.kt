@@ -2,7 +2,7 @@ package br.com.bidei.auction.api.controller
 
 import br.com.bidei.address.domain.repository.CitiesRepository
 import br.com.bidei.address.domain.repository.StatesRepository
-import br.com.bidei.auction.application.dto.AuctionDto
+import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.application.ports.AuctionService
 import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.customers.domain.repository.CustomersRepository

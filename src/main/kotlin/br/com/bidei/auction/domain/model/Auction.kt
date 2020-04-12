@@ -27,13 +27,19 @@ data class Auction (
         val carModelYear: Int,
         val carFuelType: String,
         val carKm: Int = 0,
+        @Lob
         val carOptions: String? = "[]",
         val carTransmission: String,
+        @Lob
         val carConditions: String? = "[]",
         var manuallyFinishedAt: Date?,
         val createdDate: Date? = DateUtils.utcNow(),
         var currentPrice: BigDecimal? = startPrice,
-        val productType: AuctionProductType? = AuctionProductType.CAR) {
+        val productType: AuctionProductType? = AuctionProductType.CAR,
+        @Lob
+        val carCharacteristics: String? = "[]",
+        val carIsArmored: Boolean? = false) {
+
 
     fun finish() {
         manuallyFinishedAt = Date.from(Instant.now())

@@ -7,7 +7,7 @@ import br.com.bidei.auction.domain.exceptions.AuctionNotFoundException
 import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.acl.ports.CustomersAclPort
-import br.com.bidei.auction.application.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
 import br.com.bidei.cross.exceptions.EntityNotOwnedByCustomer
 import br.com.bidei.factories.AddressFactory
 import br.com.bidei.factories.AuctionFactory
