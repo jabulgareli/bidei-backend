@@ -3,6 +3,7 @@ package br.com.bidei.bid.api.controller
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.application.dto.NewBidDto
 import br.com.bidei.bid.application.ports.BidService
+import br.com.bidei.bid.domain.dto.BidResponseDto
 import br.com.bidei.bid.domain.model.Bid
 import br.com.bidei.bid.domain.model.BidValue
 import org.springframework.data.domain.Page
@@ -39,7 +40,7 @@ class BidControllerImpl(private val bidService: BidService) : BidController {
                                               page: Int,
                                               sortBy: String,
                                               direction: String,
-                                              perPage: Int): ResponseEntity<Page<Bid>> {
+                                              perPage: Int): ResponseEntity<Page<BidResponseDto>> {
 
         var pageRequest = if (direction.toUpperCase() == "DESC") {
             PageRequest.of(page, perPage, Sort.by(sortBy).descending())
@@ -54,7 +55,7 @@ class BidControllerImpl(private val bidService: BidService) : BidController {
                                  page: Int,
                                  sortBy: String,
                                  direction: String,
-                                 perPage: Int): ResponseEntity<Page<Bid>> {
+                                 perPage: Int): ResponseEntity<Page<BidResponseDto>> {
 
         var pageRequest = if (direction.toUpperCase() == "DESC") {
             PageRequest.of(page, perPage, Sort.by(sortBy).descending())

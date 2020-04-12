@@ -27,6 +27,8 @@ data class AuctionDto(
         val currentPrice: BigDecimal? = null,
         val productType: AuctionProductType? = AuctionProductType.CAR,
         val carCharacteristics: List<String>? = emptyList(),
-        val carIsArmored: Boolean? = false){
+        val carIsArmored: Boolean? = false,
+        val isPaid: Boolean,
+        val isFinished: Boolean){
 
 }

@@ -204,7 +204,9 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.currentPrice,
                     auction.productType,
                     gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
-                    auction.carIsArmored)
+                    auction.carIsArmored,
+                    auction.isPaid!!,
+                    auction.isFinished())
 
     override fun convertAuctionToCreateDto(auction: Auction) =
             CreateOrUpdateAuctionDto(auction.id,
@@ -227,7 +229,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.createdDate,
                     auction.currentPrice,
                     AuctionProductType.CAR,
-                    gson.fromJson(auction.carCharacteristics, jsonMapOfStringType),
+                    gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
                     auction.carIsArmored)
 
     private fun getPathPhoto(id: UUID, name: String) =

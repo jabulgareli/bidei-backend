@@ -6,6 +6,7 @@ import br.com.bidei.acl.ports.WalletAclPort
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.application.dto.NewBidDto
 import br.com.bidei.bid.application.ports.BidService
+import br.com.bidei.bid.domain.dto.BidResponseDto
 import br.com.bidei.bid.domain.exception.AuctionFinishedException
 import br.com.bidei.bid.domain.exception.DuplicateBidException
 import br.com.bidei.bid.domain.model.Bid
@@ -63,8 +64,10 @@ class BidServiceImpl(
     @Transactional
     override fun findByCustomerIdAndAuctionId(customerId: UUID, auctionId: UUID, pageable: Pageable) =
             bidRepository.findByCustomerIdAndAuctionId(customerId, auctionId, pageable)
+                    .map{t -> BidResponseDto.Map.fromBid (t)}
 
     @Transactional
     override fun findByAuctionId(auctionId: UUID, pageable: Pageable) =
             bidRepository.findByAuctionId(auctionId, pageable)
+                    .map{t -> BidResponseDto.Map.fromBid (t)}
 }

@@ -38,14 +38,15 @@ data class Auction (
         val productType: AuctionProductType? = AuctionProductType.CAR,
         @Lob
         val carCharacteristics: String? = "[]",
-        val carIsArmored: Boolean? = false) {
+        val carIsArmored: Boolean? = false,
+        val isPaid: Boolean? = false) {
 
 
     fun finish() {
         manuallyFinishedAt = Date.from(Instant.now())
     }
 
-    fun isFinished(): Boolean = ((endDate < Date.from(Instant.now())) ||
+    fun isFinished(): Boolean = ((endDate <= Date.from(Instant.now())) ||
                                  (manuallyFinishedAt != null))
 
     fun acceptBid(value: BigDecimal) {

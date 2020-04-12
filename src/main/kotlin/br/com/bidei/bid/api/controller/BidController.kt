@@ -2,6 +2,7 @@ package br.com.bidei.bid.api.controller
 
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.application.dto.NewBidDto
+import br.com.bidei.bid.domain.dto.BidResponseDto
 import br.com.bidei.bid.domain.model.Bid
 import br.com.bidei.bid.domain.model.BidValue
 import org.springframework.data.domain.Page
@@ -26,12 +27,12 @@ interface BidController {
                                      @RequestParam(value = "page", defaultValue = "0") page: Int,
                                      @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
                                      @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
-                                     @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<Bid>>
+                                     @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<BidResponseDto>>
 
     @GetMapping("api/v1/bid/auction/{auctionId}")
     fun findByAuctionId(@PathVariable auctionId: UUID,
                         @RequestParam(value = "page", defaultValue = "0") page: Int,
                         @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
                         @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
-                        @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<Bid>>
+                        @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<BidResponseDto>>
 }
