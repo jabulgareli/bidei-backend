@@ -201,7 +201,10 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     gson.fromJson(auction.carConditions, jsonListOfAuctionCarOption),
                     auction.manuallyFinishedAt,
                     auction.createdDate,
-                    auction.currentPrice)
+                    auction.currentPrice,
+                    auction.productType,
+                    gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
+                    auction.carIsArmored)
 
     override fun convertAuctionToCreateDto(auction: Auction) =
             CreateOrUpdateAuctionDto(auction.id,
