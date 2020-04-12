@@ -1,11 +1,9 @@
 package br.com.bidei.factories
 
 import br.com.bidei.address.domain.model.City
-import br.com.bidei.auction.application.dto.AuctionDto
-import br.com.bidei.auction.application.dto.AuctionPhotoDto
+import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.customers.domain.model.Customer
-import br.com.bidei.factories.CustomerFactory.newCustomer
 import java.math.BigDecimal
 import java.util.*
 

@@ -1,11 +1,9 @@
-package br.com.bidei.auction.application.dto
+package br.com.bidei.auction.domain.dto
 
 import br.com.bidei.address.domain.model.City
+import br.com.bidei.auction.domain.model.AuctionProductType
 import java.math.BigDecimal
 import java.util.*
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
 
 data class AuctionDto(
         val id: UUID? = UUID.randomUUID(),
@@ -23,9 +21,12 @@ data class AuctionDto(
         val carKm: Int = 0,
         val carOptions: List<String>? = emptyList(),
         val carTransmission: String? = null,
-        val carConditions: Map<String, String>? = emptyMap(),
+        val carConditions: ArrayList<AuctionCarOptionDto> = arrayListOf(),
         val manuallyFinishedAt: Date? = null,
         val createdDate: Date? = null,
-        val currentPrice: BigDecimal? = null){
+        val currentPrice: BigDecimal? = null,
+        val productType: AuctionProductType? = AuctionProductType.CAR,
+        val carCharacteristics: List<String>? = emptyList(),
+        val carIsArmored: Boolean? = false){
 
 }

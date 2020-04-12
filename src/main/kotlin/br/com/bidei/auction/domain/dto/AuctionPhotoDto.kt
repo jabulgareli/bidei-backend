@@ -1,6 +1,5 @@
-package br.com.bidei.auction.application.dto
+package br.com.bidei.auction.domain.dto
 
-import java.util.*
 import javax.validation.constraints.NotEmpty
 
 data class AuctionPhotoDto(

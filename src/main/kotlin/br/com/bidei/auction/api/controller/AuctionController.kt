@@ -1,8 +1,8 @@
 package br.com.bidei.auction.api.controller
 
-import br.com.bidei.auction.application.dto.AuctionDto
-import br.com.bidei.auction.application.dto.AuctionPhotoDto
-import br.com.bidei.auction.application.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.dto.AuctionDto
+import br.com.bidei.auction.domain.dto.AuctionPhotoDto
+import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

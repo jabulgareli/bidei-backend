@@ -1,8 +1,8 @@
 package br.com.bidei.auction.application.adapters
 
 import br.com.bidei.acl.ports.AddressAclPort
-import br.com.bidei.auction.application.dto.AuctionDto
-import br.com.bidei.auction.application.dto.AuctionPhotoDto
+import br.com.bidei.auction.domain.dto.AuctionDto
+import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.exceptions.AuctionNotFoundException
 import br.com.bidei.auction.domain.exceptions.CityNotFoundException
 import br.com.bidei.auction.domain.exceptions.CustomerNotFoundException
@@ -13,10 +13,12 @@ import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.auction.domain.ports.services.FileUploadServicePort
 import br.com.bidei.auction.domain.specifications.AuctionSpecifications
 import br.com.bidei.acl.ports.CustomersAclPort
-import br.com.bidei.auction.application.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.domain.exception.PriceChangedException
 import br.com.bidei.cross.services.EntityOwnerServiceBase
 import br.com.bidei.utils.DateUtils
+import br.com.bidei.utils.jsonListOfAuctionCarOption
 import br.com.bidei.utils.jsonListOfStringType
 import br.com.bidei.utils.jsonMapOfStringType
 import com.google.gson.Gson
@@ -162,7 +164,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 gson.toJson(auctionDto.carConditions),
                 auctionDto.manuallyFinishedAt,
                 auctionDto.createdDate,
-                auctionDto.currentPrice)
+                auctionDto.currentPrice,
+                AuctionProductType.CAR)
     }
 
     override fun getByCustomerId(customerId: UUID, onlyOpen: Boolean, pageable: Pageable): Page<AuctionDto> {
@@ -193,10 +196,12 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.carKm,
                     gson.fromJson(auction.carOptions, jsonListOfStringType),
                     auction.carTransmission,
-                    gson.fromJson(auction.carConditions, jsonMapOfStringType),
+                    gson.fromJson(auction.carConditions, jsonListOfAuctionCarOption),
                     auction.manuallyFinishedAt,
                     auction.createdDate,
-                    auction.currentPrice)
+                    auction.currentPrice,
+                    auction.productType,
+                    gson.fromJson(auction.carCharacteristics, jsonListOfStringType))
 
     override fun convertAuctionToCreateDto(auction: Auction) =
             CreateOrUpdateAuctionDto(auction.id,
@@ -214,10 +219,12 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.carKm,
                     gson.fromJson(auction.carOptions, jsonListOfStringType),
                     auction.carTransmission,
-                    gson.fromJson(auction.carConditions, jsonMapOfStringType),
+                    gson.fromJson(auction.carConditions, jsonListOfAuctionCarOption),
                     auction.manuallyFinishedAt,
                     auction.createdDate,
-                    auction.currentPrice)
+                    auction.currentPrice,
+                    AuctionProductType.CAR,
+                    gson.fromJson(auction.carCharacteristics, jsonMapOfStringType))
 
     private fun getPathPhoto(id: UUID, name: String) =
             "auctions/${id}/" + name.replace(".png", "") + ".png"
