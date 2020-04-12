@@ -11,4 +11,5 @@ interface CustomersService {
     fun create(customer: CustomerDto): Customer
     fun update(customer: CustomerUpdateDto): Customer
     fun findByEmail(email: String): CustomerProviderDto
+    fun findByReferenceId(referenceId: String): Customer
 }

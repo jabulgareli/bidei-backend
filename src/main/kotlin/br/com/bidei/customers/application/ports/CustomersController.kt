@@ -23,4 +23,7 @@ interface CustomersController {
     @GetMapping("$PUBLIC/customers")
     fun findByEmail(@RequestParam email: String): CustomerProviderDto
 
+    @GetMapping("$PUBLIC/customers/reference-id")
+    fun findByReferenceId(@RequestParam referenceId: String): Customer
+
 }

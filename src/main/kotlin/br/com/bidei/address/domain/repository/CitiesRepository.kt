@@ -8,5 +8,5 @@ import java.util.*
 @Repository
 interface CitiesRepository : JpaRepository<City, Long> {
     fun findByStateInitialsEqualsAndNameContains(state:String, name: String): MutableList<City>
-    fun findByName(name: String): Optional<City>
+    fun findByNameAndStateInitials(name: String, state: String): Optional<City>
 }

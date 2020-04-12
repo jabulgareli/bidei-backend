@@ -26,8 +26,8 @@ class GeocodeServiceImpl(
             if (stateBd.isPresent) state = stateBd.get()
         }
 
-        if (googleGeocodeResponse.city() != null) {
-            val cityBd = citiesRepository.findByName(googleGeocodeResponse.city().toString())
+        if (googleGeocodeResponse.city() != null && state != null) {
+            val cityBd = citiesRepository.findByNameAndStateInitials(googleGeocodeResponse.city().toString(), state.initials)
             if (cityBd.isPresent) city = cityBd.get()
         }
 
