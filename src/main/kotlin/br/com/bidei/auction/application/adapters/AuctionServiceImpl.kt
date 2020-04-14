@@ -170,13 +170,15 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 auctionDto.carIsArmored)
     }
 
-    override fun getByCustomerId(customerId: UUID, onlyOpen: Boolean, pageable: Pageable): Page<AuctionDto> {
+    override fun getByCustomerId(customerId: UUID, onlyOpen: Boolean?, pageable: Pageable): Page<AuctionDto> {
         var spec: Specification<Auction>? = AuctionSpecifications.withCustomerId(customerId)
 
-        spec = if (onlyOpen)
-            spec?.and(AuctionSpecifications.isOpen())
-        else
-            spec?.and(AuctionSpecifications.isExpired())?.or(AuctionSpecifications.isManuallyFinished())
+        if (onlyOpen != null) {
+            spec = if (onlyOpen)
+                spec?.and(AuctionSpecifications.isOpen())
+            else
+                spec?.and(AuctionSpecifications.isExpired())?.or(AuctionSpecifications.isManuallyFinished())
+        }
 
         return auctionRepository.findAll(spec, pageable)
                 .map(::convertAuctionToDto)

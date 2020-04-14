@@ -30,7 +30,7 @@ interface AuctionController {
 
     @GetMapping("$PRIVATE/customers/{customerId}")
     fun getLatestAuctionsBy(@PathVariable customerId: UUID,
-                            @RequestParam(value = "onlyOpen", defaultValue = "true") onlyOpen: Boolean,
+                            @RequestParam(value = "onlyOpen") onlyOpen: Boolean?,
                             @RequestParam(value = "page", defaultValue = "0") page: Int,
                             @RequestParam(value = "perPage", defaultValue = "5") perPage: Int): ResponseEntity<Page<AuctionDto>>
 

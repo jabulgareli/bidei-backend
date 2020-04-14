@@ -28,7 +28,7 @@ interface AuctionService {
     fun getAuctionDtoById(id: UUID): AuctionDto
     fun getById(id: UUID): Auction
 
-    fun getByCustomerId(customerId: UUID, onlyOpen: Boolean, pageable: Pageable): Page<AuctionDto>
+    fun getByCustomerId(customerId: UUID, onlyOpen: Boolean?, pageable: Pageable): Page<AuctionDto>
 
     fun finish(customerId: UUID,
                id: UUID): AuctionDto

@@ -37,7 +37,7 @@ class AuctionControllerImpl(private val auctionService: AuctionService) : Auctio
     override fun getById(auctionId: UUID) = auctionService.getAuctionDtoById(auctionId)
 
     override fun getLatestAuctionsBy(customerId: UUID,
-                                     onlyOpen: Boolean,
+                                     onlyOpen: Boolean?,
                                      page: Int,
                                      perPage: Int) =
             ResponseEntity.ok(auctionService.getByCustomerId(customerId,
