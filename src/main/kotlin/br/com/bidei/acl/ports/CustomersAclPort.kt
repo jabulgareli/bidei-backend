@@ -5,4 +5,5 @@ import java.util.*
 
 interface CustomersAclPort {
     fun findById(id: UUID): Optional<Customer>
+    fun receiveInviteFromPartner(customer: Customer, partner: Customer)
 }

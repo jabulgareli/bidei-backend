@@ -53,6 +53,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
         val updatedRecords = auctionRepository.acceptBid(auction.id!!, auction.currentPrice?.plus(bid)!!, currentPrice)
 
         auction.acceptBid(bid)
+
         if (updatedRecords == 0)
             throw PriceChangedException()
     }
