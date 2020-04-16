@@ -4,19 +4,17 @@ import br.com.bidei.acl.ports.BidAclPort
 import br.com.bidei.acl.ports.CustomersAclPort
 import br.com.bidei.acl.ports.WalletAclPort
 import br.com.bidei.coupon.application.ports.CouponServicePort
+import br.com.bidei.coupon.domain.dto.CouponTransactionDto
 import br.com.bidei.coupon.domain.exception.CouponNotFoundException
 import br.com.bidei.coupon.domain.exception.CustomerAlreadyBidedException
 import br.com.bidei.coupon.domain.exception.CustomerAlreadyInvitedException
 import br.com.bidei.coupon.domain.model.Coupon
-import br.com.bidei.coupon.domain.model.CouponPartnerPrize
 import br.com.bidei.coupon.domain.model.CouponTransaction
-import br.com.bidei.coupon.repository.CouponPartnerPrizeRepository
 import br.com.bidei.coupon.repository.CouponRepository
 import br.com.bidei.coupon.repository.CouponTransactionRepository
 import br.com.bidei.customers.application.exceptions.CustomerNotFoundException
 import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.wallet.domain.dto.WalletCouponCreditBidDto
-import br.com.bidei.wallet.domain.model.WalletStatement
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -27,8 +25,7 @@ class CouponServiceAdapter(private val couponRepository: CouponRepository,
                            private val couponTransactionRepository: CouponTransactionRepository,
                            private val walletAclPort: WalletAclPort,
                            private val customersAclPort: CustomersAclPort,
-                           private val bidAclPort: BidAclPort,
-                           private val couponPartnerPrizeRepository: CouponPartnerPrizeRepository) : CouponServicePort {
+                           private val bidAclPort: BidAclPort) : CouponServicePort {
 
     @Transactional
     override fun apply(customerId: UUID, code: String) {
@@ -45,6 +42,10 @@ class CouponServiceAdapter(private val couponRepository: CouponRepository,
 
         coupon.incUsed()
         couponRepository.save(coupon)
+    }
+
+    override fun getUsedCouponsByCustomerId(customerId: UUID): List<CouponTransactionDto> {
+        return couponTransactionRepository.findByCustomerId(customerId).map { t -> CouponTransactionDto.Map.fromCouponTransaction(t) }
     }
 
     private fun applyInvite(customer: Customer, coupon: Coupon) {

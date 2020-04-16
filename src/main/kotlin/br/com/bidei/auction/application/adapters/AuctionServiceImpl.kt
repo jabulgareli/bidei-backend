@@ -147,7 +147,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 ?: throw CityNotFoundException()
 
         return Auction(
-                auctionDto.id!!,
+                auctionDto.id ?: UUID.randomUUID(),
                 customer,
                 city,
                 auctionDto.endDate!!,

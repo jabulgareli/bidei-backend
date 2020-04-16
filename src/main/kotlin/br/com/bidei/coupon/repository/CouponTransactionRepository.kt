@@ -9,4 +9,5 @@ import java.util.*
 @Repository
 interface CouponTransactionRepository : JpaRepository<CouponTransaction, UUID> {
     fun countByCustomerIdAndCoupon_Code(customerId: UUID, code: String): Int
+    fun findByCustomerId(customerId: UUID): List<CouponTransaction>
 }
