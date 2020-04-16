@@ -46,8 +46,9 @@ object WalletFactory {
             bids = BigDecimal.TEN
     )
 
-    fun newWalletBalanceDebitDto(customer: Customer) = WalletBalanceDebitDto (
+    fun newWalletBalanceDebitDto(customer: Customer) = WalletBidDebitDto (
         customerId = customer.id
     )
+
 
 }

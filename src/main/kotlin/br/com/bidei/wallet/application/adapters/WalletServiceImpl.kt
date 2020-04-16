@@ -1,5 +1,6 @@
 package br.com.bidei.wallet.application.adapters
 
+import br.com.bidei.acl.ports.CouponAclPort
 import br.com.bidei.acl.ports.CustomersAclPort
 import br.com.bidei.acl.ports.IntegrationsPaymentsAclPort
 import br.com.bidei.cross.services.EntityOwnerServiceBase
@@ -10,7 +11,6 @@ import br.com.bidei.wallet.application.ports.WalletService
 import br.com.bidei.wallet.application.ports.WalletStatementService
 import br.com.bidei.wallet.domain.dto.*
 import br.com.bidei.wallet.domain.model.WalletCustomer
-import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
@@ -25,7 +25,8 @@ class WalletServiceImpl(
         private val walletCustomerRepository: WalletCustomerRepository,
         private val integrationsPaymentsAcl: IntegrationsPaymentsAclPort,
         private val customersAcl: CustomersAclPort,
-        private val walletStatementService: WalletStatementService
+        private val walletStatementService: WalletStatementService,
+        private val couponAclPort: CouponAclPort
 ) : WalletService, EntityOwnerServiceBase<WalletCustomer, UUID>() {
 
     override fun addCard(createCardDto: CreateCardDto) {
@@ -58,10 +59,18 @@ class WalletServiceImpl(
     }
 
     @Transactional
-    override fun newBalanceDebitTransaction(walletBalanceDebitDto: WalletBalanceDebitDto) {
+    override fun newBidDebitTransaction(walletBalanceDebitDto: WalletBidDebitDto) {
         val walletCustomer = walletCustomerRepository.findByCustomerId(walletBalanceDebitDto.customerId).get()
         walletStatementService.newWalletBalanceDebitTransaction(walletCustomer, walletBalanceDebitDto)
         walletCustomer.chargeWallet(walletBalanceDebitDto.bids.negate())
+        walletCustomerRepository.save(walletCustomer)
+    }
+
+    @Transactional
+    override fun newCouponCreditTransaction(walletCouponCreditBidDto: WalletCouponCreditBidDto) {
+        val walletCustomer = walletCustomerRepository.findByCustomerId(walletCouponCreditBidDto.customerId).get()
+        walletStatementService.newWalletCouponCreditTransaction(walletCustomer, walletCouponCreditBidDto)
+        walletCustomer.chargeWallet(walletCouponCreditBidDto.bids)
         walletCustomerRepository.save(walletCustomer)
     }
 
@@ -70,17 +79,25 @@ class WalletServiceImpl(
         val statements = walletStatementService.listWalletTransactionsByCustomer(wallet.id!!, pageable)
 
         val aggregate = statements.groupBy { t -> DateUtils.dateWithoutTime(t.createdAt!!) }
-                .map { t -> WalletTransactionsPerDateDto(t.key,
-                                                         t.value.map { t -> WalletTransactionDto.Map.fromWalletStatement(t) })}
+                .map { t ->
+                    WalletTransactionsPerDateDto(t.key,
+                            t.value.map { t -> WalletTransactionDto.Map.fromWalletStatement(t) })
+                }
         return PageImpl(aggregate, pageable, aggregate.size.toLong())
     }
 
 
     private fun chargeWalletWhenCard(walletCustomer: WalletCustomer, walletCardChargeDto: WalletCardChargeDto, walletChargeResponseDto: WalletChargeResponseDto) {
-        walletStatementService.newRecordCardTransaction(walletCustomer, walletCardChargeDto, walletChargeResponseDto)
+        val statement = walletStatementService.newRecordCardTransaction(walletCustomer, walletCardChargeDto, walletChargeResponseDto)
+
         if (walletChargeResponseDto.success) {
             walletCustomer.chargeWallet(walletCardChargeDto.getBidsQuantity())
+
             walletCustomerRepository.save(walletCustomer)
+
+            couponAclPort.prizePartner(walletCustomer.customer,
+                    walletCardChargeDto.getAmount(),
+                    statement)
         }
     }
 

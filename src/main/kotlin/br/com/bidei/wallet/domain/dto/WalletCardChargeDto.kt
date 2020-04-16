@@ -28,6 +28,6 @@ data class WalletCardChargeDto(
         }
 
         fun getAmount(): BigDecimal{
-                return quantity.multiply(BigDecimal(BidConfig.BID_UNIT_PRICE_IN_CENTS))
+                return quantity.multiply(BidConfig.BID_UNIT_PRICE)
         }
 }

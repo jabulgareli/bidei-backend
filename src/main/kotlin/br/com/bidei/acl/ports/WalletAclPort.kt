@@ -1,7 +1,9 @@
 package br.com.bidei.acl.ports
 
-import br.com.bidei.wallet.domain.dto.WalletBalanceDebitDto
+import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
+import br.com.bidei.wallet.domain.dto.WalletCouponCreditBidDto
 
 interface WalletAclPort {
-    fun newBalanceDebitTransaction(walletBalanceDebitDto: WalletBalanceDebitDto)
+    fun newBalanceDebitTransaction(walletBalanceDebitDto: WalletBidDebitDto)
+    fun newCouponCreditTransaction(walletCouponCreditBidDto: WalletCouponCreditBidDto)
 }

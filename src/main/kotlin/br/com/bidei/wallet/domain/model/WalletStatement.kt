@@ -33,6 +33,8 @@ data class WalletStatement(
 
         val bids: BigDecimal,
 
+        val coupon: String? = "",
+
         val operationDescription: String? = "n/a",
 
         val amount: BigDecimal? = BigDecimal.ZERO

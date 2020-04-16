@@ -4,18 +4,21 @@ import br.com.bidei.address.domain.model.City
 import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.customers.domain.model.Customer
+import br.com.bidei.utils.DateUtils
 import java.math.BigDecimal
+import java.sql.Timestamp
 import java.util.*
 
 object AuctionFactory{
     val validAuctionId = UUID.fromString("7dab9bb8-5b89-42b4-9436-85691c5d9251")
     val defaultCarStartPrice = BigDecimal.valueOf(58500.99)
-    fun getDaysFromNow(daysToAdd: Int?): Date?{
+    fun getDaysFromNow(daysToAdd: Int?): Timestamp?{
         if (daysToAdd == null)
             return null
-        val date = Calendar.getInstance()
-        date.add(Calendar.DAY_OF_YEAR, daysToAdd)
-        return date.time
+        val now = Timestamp(Date().time)
+
+        val date = DateUtils.addDays(now, daysToAdd)
+        return date
     }
 
     fun newAuction(daysToEndDate: Int, customer: Customer, city: City, finishedDaysAgo: Int? = null) =

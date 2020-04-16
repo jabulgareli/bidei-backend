@@ -10,12 +10,10 @@ import br.com.bidei.bid.domain.dto.BidResponseDto
 import br.com.bidei.bid.domain.exception.AuctionFinishedException
 import br.com.bidei.bid.domain.exception.DuplicateBidException
 import br.com.bidei.bid.domain.model.Bid
-import br.com.bidei.bid.domain.model.BidValue
 import br.com.bidei.bid.domain.repository.BidRepository
 import br.com.bidei.bid.domain.repository.BidValueRepository
 import br.com.bidei.utils.DateUtils
-import br.com.bidei.wallet.domain.dto.WalletBalanceDebitDto
-import org.springframework.data.domain.Page
+import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -43,7 +41,7 @@ class BidServiceImpl(
         if (duplicatedBid.isPresent)
             throw DuplicateBidException()
 
-        walletAclPort.newBalanceDebitTransaction(WalletBalanceDebitDto(
+        walletAclPort.newBalanceDebitTransaction(WalletBidDebitDto(
                 customerId = customer.id
         ))
 
@@ -70,4 +68,5 @@ class BidServiceImpl(
     override fun findByAuctionId(auctionId: UUID, pageable: Pageable) =
             bidRepository.findByAuctionId(auctionId, pageable)
                     .map{t -> BidResponseDto.Map.fromBid (t)}
+
 }

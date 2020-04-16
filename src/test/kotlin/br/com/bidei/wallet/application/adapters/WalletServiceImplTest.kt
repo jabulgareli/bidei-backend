@@ -1,6 +1,5 @@
 package br.com.bidei.wallet.application.adapters
 
-import br.com.bidei.acl.ports.CustomersAclPort
 import br.com.bidei.acl.ports.IntegrationsPaymentsAclPort
 import br.com.bidei.factories.CustomerFactory
 import br.com.bidei.factories.IuguFactory
@@ -11,6 +10,7 @@ import br.com.bidei.wallet.application.ports.WalletService
 import br.com.bidei.wallet.application.ports.WalletStatementService
 import br.com.bidei.wallet.domain.dto.WalletChargeResponseDto
 import br.com.bidei.wallet.domain.exceptions.InsufficientBalanceOnWalletException
+import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -75,7 +75,7 @@ internal class WalletServiceImplTest(
 
         given(walletCustomerRepository.findByCustomerId(walletCardChargeDto.customerId!!)).willReturn(Optional.of(walletCustomer))
         given(integrationsPaymentsAcl.charge(IuguChargeRequest.Map.from(walletCustomer, walletCardChargeDto))).willReturn(iuguChargeResponse)
-        doNothing().`when`(walletStatementService).newRecordCardTransaction(walletCustomer,walletCardChargeDto, walletChargeResponseDto)
+        given(walletStatementService.newRecordCardTransaction(walletCustomer,walletCardChargeDto, walletChargeResponseDto)).willReturn(WalletFactory.newWalletStatement(walletCustomer))
         given(walletCustomerRepository.save(walletCustomer)).willReturn(walletCustomer)
         walletService.newCardTransaction(walletCardChargeDto)
 
@@ -94,7 +94,7 @@ internal class WalletServiceImplTest(
         given(walletCustomerRepository.save(walletCustomer)).willReturn(walletCustomer)
         walletCustomer.chargeWallet(BigDecimal.valueOf(10))
 
-        walletService.newBalanceDebitTransaction(walletBalanceDebitDto)
+        walletService.newBidDebitTransaction(walletBalanceDebitDto)
 
         then(walletCustomerRepository).should().save(walletCustomer)
         then(walletStatementService).should().newWalletBalanceDebitTransaction(walletCustomer, walletBalanceDebitDto)
@@ -111,7 +111,7 @@ internal class WalletServiceImplTest(
         given(walletCustomerRepository.save(walletCustomer)).willReturn(walletCustomer)
 
         try {
-            walletService.newBalanceDebitTransaction(walletBalanceDebitDto)
+            walletService.newBidDebitTransaction(walletBalanceDebitDto)
             fail("InsufficientBalanceOnWalletException expected")
         }catch (e: InsufficientBalanceOnWalletException){
 

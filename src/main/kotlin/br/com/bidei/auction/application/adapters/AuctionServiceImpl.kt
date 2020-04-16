@@ -53,6 +53,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
         val updatedRecords = auctionRepository.acceptBid(auction.id!!, auction.currentPrice?.plus(bid)!!, currentPrice)
 
         auction.acceptBid(bid)
+
         if (updatedRecords == 0)
             throw PriceChangedException()
     }
@@ -167,7 +168,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 auctionDto.currentPrice,
                 AuctionProductType.CAR,
                 gson.toJson(auctionDto.carCharacteristics),
-                auctionDto.carIsArmored)
+                auctionDto.carIsArmored,
+                carColor = auctionDto.carColor)
     }
 
     override fun getByCustomerId(customerId: UUID, onlyOpen: Boolean?, pageable: Pageable): Page<AuctionDto> {
@@ -208,7 +210,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
                     auction.carIsArmored,
                     auction.isPaid!!,
-                    auction.isFinished())
+                    auction.isFinished(),
+                    auction.carColor)
 
     override fun convertAuctionToCreateDto(auction: Auction) =
             CreateOrUpdateAuctionDto(auction.id,
@@ -232,7 +235,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.currentPrice,
                     AuctionProductType.CAR,
                     gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
-                    auction.carIsArmored)
+                    auction.carIsArmored,
+                    carColor = auction.carColor)
 
     private fun getPathPhoto(id: UUID, name: String) =
             "auctions/${id}/" + name.replace(".png", "") + ".png"
