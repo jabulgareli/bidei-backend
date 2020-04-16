@@ -46,4 +46,10 @@ class VehiclesApiKbbAdapter(
     override fun getAllVehiclePriceType(vehicleId: Int, vehiclePriceTypeID: Int): String? =
             getDataFromKbb("/Gps/GetAllVehiclePrices${withSecurityTokenAndLanguage()}&vehicleId=${vehicleId}&vehiclePriceTypeID=${vehiclePriceTypeID}")
 
+    override fun getAllTransmissionTypes(): String?
+            = getDataFromKbb("/Gps/GetAllVehicleTransmissionType${withSecurityTokenAndLanguage()}")
+
+    override fun getAllFuelTypes(): String? =
+            getDataFromKbb("/Gps/GetAllVehicleFuelType${withSecurityTokenAndLanguage()}")
+
 }

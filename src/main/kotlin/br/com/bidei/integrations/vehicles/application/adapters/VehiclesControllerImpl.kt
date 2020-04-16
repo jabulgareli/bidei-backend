@@ -30,4 +30,8 @@ class VehiclesControllerImpl(private val vehiclesService: VehiclesService) : Veh
     override fun prices(vehicleId: Int, vehiclePriceTypeID: Int): ResponseEntity<String> =
             ResponseEntity.ok(vehiclesService.prices(vehicleId, vehiclePriceTypeID).toString())
 
+    override fun fuelTypes(): ResponseEntity<String> = ResponseEntity.ok(vehiclesService.fuelTypes().toString())
+
+    override fun transmissionTypes(): ResponseEntity<String> = ResponseEntity.ok(vehiclesService.transmissionTypes().toString())
+
 }

@@ -20,4 +20,8 @@ class VehiclesServiceImpl(private val vehiclesApiKbbPort: VehiclesApiKbbPort) : 
 
     override fun prices(vehicleId: Int, vehiclePriceTypeID: Int): String? = vehiclesApiKbbPort.getAllVehiclePriceType(vehicleId, vehiclePriceTypeID)
 
+    override fun fuelTypes(): String? = vehiclesApiKbbPort.getAllFuelTypes()
+
+    override fun transmissionTypes(): String? = vehiclesApiKbbPort.getAllTransmissionTypes()
+
 }

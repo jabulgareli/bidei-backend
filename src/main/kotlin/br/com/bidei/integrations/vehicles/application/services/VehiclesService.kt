@@ -8,4 +8,6 @@ interface VehiclesService {
     fun equipments(vehicleId: Int): String?
     fun grades(): String?
     fun prices(vehicleId: Int, vehiclePriceTypeID: Int): String?
+    fun fuelTypes(): String?
+    fun transmissionTypes(): String?
 }

@@ -8,4 +8,6 @@ interface VehiclesApiKbbPort {
     fun getAllEquipments(vehicleId: Int): String?
     fun getAllVehicleGrade(): String?
     fun getAllVehiclePriceType(vehicleId: Int, vehiclePriceTypeID: Int): String?
+    fun getAllTransmissionTypes(): String?
+    fun getAllFuelTypes(): String?
 }
