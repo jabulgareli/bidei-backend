@@ -1,13 +1,13 @@
 package br.com.bidei.wallet.application.adapters
 
 import br.com.bidei.wallet.application.ports.WalletStatementService
-import br.com.bidei.wallet.domain.dto.WalletBalanceDebitDto
+import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
 import br.com.bidei.wallet.domain.dto.WalletCardChargeDto
 import br.com.bidei.wallet.domain.dto.WalletChargeResponseDto
+import br.com.bidei.wallet.domain.dto.WalletCouponCreditBidDto
 import br.com.bidei.wallet.domain.model.WalletCustomer
 import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletStatementRepository
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
@@ -17,7 +17,9 @@ class WalletStatementServiceImpl(
         private val walletStatementRepository: WalletStatementRepository
 ) : WalletStatementService {
 
-    override fun newRecordCardTransaction(walletCustomer: WalletCustomer, walletCardChargeDto: WalletCardChargeDto, walletChargeResponseDto: WalletChargeResponseDto) {
+    override fun newRecordCardTransaction(walletCustomer: WalletCustomer,
+                                          walletCardChargeDto: WalletCardChargeDto,
+                                          walletChargeResponseDto: WalletChargeResponseDto) =
         walletStatementRepository.save(
                 WalletStatement(
                         walletCustomer = walletCustomer,
@@ -32,9 +34,8 @@ class WalletStatementServiceImpl(
                         amount = walletCardChargeDto.getAmount(),
                         operationDescription = walletCardChargeDto.operationDescription
                 ))
-    }
 
-    override fun newWalletBalanceDebitTransaction(walletCustomer: WalletCustomer, walletBalanceDebitDto: WalletBalanceDebitDto) {
+    override fun newWalletBalanceDebitTransaction(walletCustomer: WalletCustomer, walletBalanceDebitDto: WalletBidDebitDto) {
         walletStatementRepository.save(
                 WalletStatement(
                         walletCustomer = walletCustomer,
@@ -48,6 +49,25 @@ class WalletStatementServiceImpl(
                         url = "",
                         amount = walletBalanceDebitDto.getAmount(),
                         operationDescription = walletBalanceDebitDto.operationDescription
+                )
+        )
+    }
+
+    override fun newWalletCouponCreditTransaction(walletCustomer: WalletCustomer, walletCouponCreditBidDto: WalletCouponCreditBidDto) {
+        walletStatementRepository.save(
+                WalletStatement(
+                        walletCustomer = walletCustomer,
+                        message = walletCouponCreditBidDto.operationDescription,
+                        bids = walletCouponCreditBidDto.bids,
+                        success = true,
+                        invoiceId = "",
+                        pdf = "",
+                        transactionCode = "",
+                        source = walletCouponCreditBidDto.source.name,
+                        url = "",
+                        amount = walletCouponCreditBidDto.getAmount(),
+                        operationDescription = walletCouponCreditBidDto.operationDescription,
+                        coupon = walletCouponCreditBidDto.coupon
                 )
         )
     }

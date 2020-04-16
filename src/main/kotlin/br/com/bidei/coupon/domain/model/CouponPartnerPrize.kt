@@ -1,9 +1,11 @@
-package br.com.bidei.coupon.domain
+package br.com.bidei.coupon.domain.model
 
-import br.com.bidei.bid.domain.model.Bid
+import br.com.bidei.coupon.domain.model.Coupon
 import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.utils.DateUtils
+import br.com.bidei.wallet.domain.model.WalletStatement
 import java.math.BigDecimal
+import java.sql.Timestamp
 import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -15,10 +17,10 @@ data class CouponPartnerPrize (
         @Id
         val id: UUID,
         @OneToOne
-        val partner: Customer,
-        @OneToOne
-        val bid: Bid,
+        val customer: Customer,
         @NotNull
         val prize: BigDecimal,
-        val createdAt: Date = DateUtils.utcNow()
+        @OneToOne
+        val statement: WalletStatement,
+        val createdAt: Timestamp = DateUtils.utcNow()
 )

@@ -20,7 +20,8 @@ data class IuguChargeRequest(
                                 walletCardChargeDto.paymentMethodId,
                                 walletCustomer.referenceId,
                                 walletCardChargeDto.email,
-                                arrayListOf(IuguChargeItemDto.Map.from(walletCardChargeDto.quantity, BidConfig.BID_UNIT_PRICE_IN_CENTS))
+                                arrayListOf(IuguChargeItemDto.Map.from(walletCardChargeDto.quantity,
+                                        BidConfig.BID_UNIT_PRICE.multiply(BigDecimal.valueOf(100)).toInt()))
                         )
         }
 }

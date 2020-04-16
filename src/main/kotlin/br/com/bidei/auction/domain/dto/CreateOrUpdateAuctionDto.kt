@@ -3,6 +3,7 @@ package br.com.bidei.auction.domain.dto
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.utils.DateUtils
 import java.math.BigDecimal
+import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.FutureOrPresent
 import javax.validation.constraints.Min
@@ -16,7 +17,7 @@ data class CreateOrUpdateAuctionDto(
         val cityId: Long? = 0,
         @get:NotNull(message = "endDate is empty")
         @get:FutureOrPresent
-        val endDate: Date? = null,
+        val endDate: Timestamp? = null,
         val photos: MutableList<String>? = arrayListOf(),
         @get:Min(message = "startPrice is empty", value = 1)
         val startPrice: BigDecimal? = null,
@@ -38,9 +39,10 @@ data class CreateOrUpdateAuctionDto(
         @get:NotEmpty(message = "carTransmission is empty")
         val carTransmission: String? = null,
         val carConditions: ArrayList<AuctionCarOptionDto> = arrayListOf(),
-        val manuallyFinishedAt: Date? = null,
-        val createdDate: Date? = DateUtils.utcNow(),
+        val manuallyFinishedAt: Timestamp? = null,
+        val createdDate: Timestamp? = DateUtils.utcNow(),
         val currentPrice: BigDecimal? = startPrice,
         val productType: AuctionProductType? = AuctionProductType.CAR,
         val carCharacteristics: List<String>? = emptyList(),
-        val carIsArmored: Boolean? = false)
+        val carIsArmored: Boolean? = false,
+        val carColor: String? = null)

@@ -1,23 +1,19 @@
-package br.com.bidei.bid.domain.model
+package br.com.bidei.coupon.domain.model
 
-import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.customers.domain.model.Customer
-import java.math.BigDecimal
-import java.sql.Timestamp
+import br.com.bidei.utils.DateUtils
 import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.OneToOne
 
 @Entity
-data class Bid (
+data class CouponTransaction (
         @Id
         val id: UUID? = UUID.randomUUID(),
         @OneToOne
-        val auction: Auction,
+        val coupon: Coupon,
         @OneToOne
         val customer: Customer,
-        val value: BigDecimal,
-        val priceOnBid: BigDecimal,
-        val createdDate: Timestamp
+        val createdAt: Date = DateUtils.utcNow()
 )

@@ -1,5 +1,7 @@
 package br.com.bidei.wallet.constants
 
+import java.math.BigDecimal
+
 object BidConfig {
-    const val BID_UNIT_PRICE_IN_CENTS = 99
+    val BID_UNIT_PRICE = BigDecimal(0.99)
 }

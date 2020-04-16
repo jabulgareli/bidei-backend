@@ -3,13 +3,14 @@ package br.com.bidei.bid.domain.dto
 import br.com.bidei.bid.domain.model.Bid
 import br.com.bidei.customers.domain.model.Customer
 import java.math.BigDecimal
+import java.sql.Timestamp
 import java.util.*
 
 data class BidResponseDto(val id: UUID? = UUID.randomUUID(),
                           val customer: Customer?,
                           val value: BigDecimal,
                           val priceOnBid: BigDecimal,
-                          val createdDate: Date){
+                          val createdDate: Timestamp){
     object Map {
         fun fromBid(bid: Bid) =
                 BidResponseDto(

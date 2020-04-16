@@ -1,7 +1,9 @@
 package br.com.bidei.customers.domain.model
 
 import br.com.bidei.address.domain.model.City
+import br.com.bidei.coupon.domain.model.Coupon
 import br.com.bidei.utils.DateUtils
+import java.sql.Timestamp
 import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -26,17 +28,26 @@ class Customer(
         @NotNull
         val provider: String,
         @OneToOne
-        var partner: Customer? = null,
-        var partnerReferencedAt: Date? = null
+        var inviteCoupon: Coupon? = null,
+        var invitedAt: Timestamp? = null
 ) {
         fun phonePrefix() = phone.substring(0, 3)
         fun phone() = phone.substring(3, phone.length)
 
-        fun receiveInviteFromPartner(partner: Customer){
-                if (partner.id == this.id)
+        fun receiveInviteFromPartner(coupon: Coupon){
+                if (coupon.partner.id == this.id)
                         throw Exception("A customer can`t be refer to himself")
 
-                this.partner = partner
-                this.partnerReferencedAt = DateUtils.utcNow()
+                this.inviteCoupon = coupon
+                this.invitedAt = DateUtils.utcNow()
         }
+
+        fun isInvited() = this.inviteCoupon != null
+
+        fun canPrizePartner() =
+                isInvited() &&
+                        inviteCoupon!!.isInvite() &&
+                        invitedAt != null &&
+                        inviteCoupon!!.isValidInvite(invitedAt!!)
+
 }

@@ -1,19 +1,29 @@
 package br.com.bidei.utils
 
-import okhttp3.internal.format
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.*
 
+
 object DateUtils {
-    fun addMinutes(date: Date, minutes: Int) = Date(date.time - minutes * 60 * 1000)
+    fun addMinutes(date: Timestamp, minutes: Int): Timestamp {
+        val cal = Calendar.getInstance()
+        cal.time = date
+        cal.add(Calendar.MINUTE, minutes)
+        return Timestamp(cal.time.time)
+    }
+    fun addDays(date: Timestamp, days: Int): Timestamp {
+        val cal = Calendar.getInstance()
+        cal.time = date
+        cal.add(Calendar.DAY_OF_YEAR, days)
+        return Timestamp(cal.time.time)
+    }
 
-    fun utcNow() = Date.from(Instant.now())
-
-    fun dateWithoutTime(date: Date): Date {
-        val format = SimpleDateFormat("yyyy-MM-dd")
-        return format.parse(format.format(date))
+    fun utcNow(): Timestamp {
+        val date = LocalDateTime.now(ZoneOffset.UTC)
+        return Timestamp.valueOf(date)
     }
 
     fun dateWithoutTime(date: Timestamp): Timestamp {

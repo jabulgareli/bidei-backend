@@ -4,6 +4,7 @@ import br.com.bidei.address.domain.model.City
 import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.utils.DateUtils
 import java.math.BigDecimal
+import java.sql.Timestamp
 import java.time.Instant
 import java.util.*
 import javax.persistence.*
@@ -16,7 +17,7 @@ data class Auction (
         val customer: Customer,
         @OneToOne
         val city: City,
-        val endDate: Date,
+        val endDate: Timestamp,
         @Lob
         var photos: String? = "[]",
         val startPrice: BigDecimal,
@@ -32,21 +33,22 @@ data class Auction (
         val carTransmission: String,
         @Lob
         val carConditions: String? = "[]",
-        var manuallyFinishedAt: Date?,
-        val createdDate: Date? = DateUtils.utcNow(),
+        var manuallyFinishedAt: Timestamp?,
+        val createdDate: Timestamp? = DateUtils.utcNow(),
         var currentPrice: BigDecimal? = startPrice,
         val productType: AuctionProductType? = AuctionProductType.CAR,
         @Lob
         val carCharacteristics: String? = "[]",
         val carIsArmored: Boolean? = false,
-        val isPaid: Boolean? = false) {
+        val isPaid: Boolean? = false,
+        val carColor: String? = null) {
 
 
     fun finish() {
-        manuallyFinishedAt = Date.from(Instant.now())
+        manuallyFinishedAt = DateUtils.utcNow()
     }
 
-    fun isFinished(): Boolean = ((endDate <= Date.from(Instant.now())) ||
+    fun isFinished(): Boolean = ((endDate <= DateUtils.utcNow()) ||
                                  (manuallyFinishedAt != null))
 
     fun acceptBid(value: BigDecimal) {

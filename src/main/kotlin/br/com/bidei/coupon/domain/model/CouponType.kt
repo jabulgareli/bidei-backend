@@ -1,4 +1,4 @@
-package br.com.bidei.coupon.domain
+package br.com.bidei.coupon.domain.model
 
 enum class CouponType {
     INVITE,
