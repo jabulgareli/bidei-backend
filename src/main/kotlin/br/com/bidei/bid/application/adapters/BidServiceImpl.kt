@@ -4,6 +4,7 @@ import br.com.bidei.acl.ports.AuctionAclPort
 import br.com.bidei.acl.ports.CustomersAclPort
 import br.com.bidei.acl.ports.WalletAclPort
 import br.com.bidei.auction.domain.dto.AuctionDto
+import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.application.dto.NewBidDto
 import br.com.bidei.bid.application.ports.BidService
@@ -75,8 +76,16 @@ class BidServiceImpl(
                     .map{t -> BidResponseDto.Map.fromBid (t)}
 
     @Transactional
-    override fun findAuctionsWithBidByCustomer(customerId: UUID, pageRequest: PageRequest): Page<AuctionDto> {
-        val auctions = bidRepository.findDistinctAuctionIdByCustomerId(customerId, pageRequest)
+    override fun findAuctionsWithBidByCustomer(customerId: UUID, isOpen: Boolean?, pageRequest: PageRequest): Page<AuctionDto> {
+        var auctions: Page<Auction>
+
+        if (isOpen == null)
+            auctions = bidRepository.findDistinctAuctionIdByCustomerId(customerId, pageRequest)
+        else if (isOpen)
+            auctions = bidRepository.findOnlyOpenDistinctAuctionIdByCustomerId(customerId, DateUtils.utcNow(), pageRequest)
+        else
+            auctions = bidRepository.findOnlyFinishedDistinctAuctionIdByCustomerId(customerId, DateUtils.utcNow(), pageRequest)
+
         return auctions.map{ a -> AuctionDto.Map.fromAuction(gson, a, false) }
     }
 

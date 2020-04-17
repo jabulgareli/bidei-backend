@@ -53,6 +53,7 @@ class BidControllerImpl(private val bidService: BidService) : BidController {
     }
 
     override fun findAuctionsWithBidByCustomer(customerId: UUID,
+                                               isOpen: Boolean?,
                                                page: Int,
                                                sortBy: String,
                                                direction: String,
@@ -64,7 +65,7 @@ class BidControllerImpl(private val bidService: BidService) : BidController {
             PageRequest.of(page, perPage, Sort.by(sortBy).ascending())
         }
 
-        return ResponseEntity.ok(bidService.findAuctionsWithBidByCustomer(customerId, pageRequest))
+        return ResponseEntity.ok(bidService.findAuctionsWithBidByCustomer(customerId, isOpen, pageRequest))
     }
 
     override fun findByAuctionId(auctionId: UUID,

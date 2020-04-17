@@ -33,6 +33,7 @@ interface BidController {
 
     @GetMapping("api/v1/bid/customer/{customerId}/auctions")
     fun findAuctionsWithBidByCustomer(@PathVariable customerId: UUID,
+                                      @RequestParam(value = "isOpen") isOpen: Boolean?,
                                       @RequestParam(value = "page", defaultValue = "0") page: Int,
                                       @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
                                       @RequestParam(value = "direction", defaultValue = "DESC") direction: String,

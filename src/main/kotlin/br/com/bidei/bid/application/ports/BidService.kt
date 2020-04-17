@@ -16,5 +16,5 @@ interface BidService {
     fun listBidValues(productType: AuctionProductType): Optional<List<BidValue>>
     fun findByCustomerIdAndAuctionId(customerId: UUID, auctionId: UUID, pageable: Pageable): Page<BidResponseDto>
     fun findByAuctionId(auctionId: UUID, pageable: Pageable): Page<BidResponseDto>
-    fun findAuctionsWithBidByCustomer(customerId: UUID, pageRequest: PageRequest): Page<AuctionDto>
+    fun findAuctionsWithBidByCustomer(customerId: UUID, isOpen: Boolean?, pageRequest: PageRequest): Page<AuctionDto>
 }

@@ -19,7 +19,11 @@ interface BidRepository : JpaRepository<Bid, UUID>, PagingAndSortingRepository<B
 
     fun findByCustomerIdAndAuctionId(customerId: UUID, auctionId: UUID, pageable: Pageable): Page<Bid>
     fun findByAuctionId(auctionId: UUID, pageable: Pageable): Page<Bid>
-    @Query("SELECT a FROM Auction a JOIN Bid b ON b.auction.id = a.id WHERE b.customer.id = :customerId GROUP BY a")
+    @Query("SELECT a FROM Auction a JOIN Bid b ON b.auction.id = a.id WHERE b.customer.id = :customerId and a.isRegisterFinished = true GROUP BY a")
     fun findDistinctAuctionIdByCustomerId(customerId: UUID, pageable: Pageable): Page<Auction>
+    @Query("SELECT a FROM Auction a JOIN Bid b ON b.auction.id = a.id WHERE b.customer.id = :customerId and a.endDate > :utcNow and a.manuallyFinishedAt IS NuLL GROUP BY a")
+    fun findOnlyOpenDistinctAuctionIdByCustomerId(customerId: UUID, utcNow: Timestamp, pageable: Pageable): Page<Auction>
+    @Query("SELECT a FROM Auction a JOIN Bid b ON b.auction.id = a.id WHERE b.customer.id = :customerId and (a.endDate < :utcNow or a.manuallyFinishedAt IS NOT NuLL) GROUP BY a")
+    fun findOnlyFinishedDistinctAuctionIdByCustomerId(customerId: UUID, utcNow: Timestamp, pageable: Pageable): Page<Auction>
     fun countByCustomerId(customerId: UUID): Int
 }
