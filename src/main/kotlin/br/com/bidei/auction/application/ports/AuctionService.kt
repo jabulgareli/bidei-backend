@@ -42,6 +42,5 @@ interface AuctionService {
                     photoName: String): AuctionDto
 
     fun loadAuctionFromDto(auctionDto: CreateOrUpdateAuctionDto): Auction
-    fun convertAuctionToDto(auction: Auction): AuctionDto
     fun convertAuctionToCreateDto(auction: Auction): CreateOrUpdateAuctionDto
 }

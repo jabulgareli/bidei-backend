@@ -1,5 +1,6 @@
 package br.com.bidei.bid.api.controller
 
+import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.application.dto.NewBidDto
 import br.com.bidei.bid.domain.dto.BidResponseDto
@@ -28,6 +29,14 @@ interface BidController {
                                      @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
                                      @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
                                      @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<BidResponseDto>>
+
+
+    @GetMapping("api/v1/bid/customer/{customerId}/auctions")
+    fun findAuctionsWithBidByCustomer(@PathVariable customerId: UUID,
+                                      @RequestParam(value = "page", defaultValue = "0") page: Int,
+                                      @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,
+                                      @RequestParam(value = "direction", defaultValue = "DESC") direction: String,
+                                      @RequestParam(value = "perPage", defaultValue = "3") perPage: Int): ResponseEntity<Page<AuctionDto>>
 
     @GetMapping("api/v1/bid/auction/{auctionId}")
     fun findByAuctionId(@PathVariable auctionId: UUID,

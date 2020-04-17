@@ -40,12 +40,12 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
 
     @Transactional
     override fun create(auctionDto: CreateOrUpdateAuctionDto): AuctionDto =
-            convertAuctionToDto(auctionRepository.save(loadAuctionFromDto(auctionDto)))
+            AuctionDto.Map.fromAuction(gson, auctionRepository.save(loadAuctionFromDto(auctionDto)))
 
     @Transactional
     override fun update(customerId: UUID, auctionDto: CreateOrUpdateAuctionDto): AuctionDto {
         checkOwner(auctionDto.id!!, customerId)
-        return convertAuctionToDto(auctionRepository.save(loadAuctionFromDto(auctionDto)))
+        return AuctionDto.Map.fromAuction(gson, (auctionRepository.save(loadAuctionFromDto(auctionDto))))
     }
 
     @Transactional
@@ -75,10 +75,11 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 .and(AuctionSpecifications.withStateId(stateId))
 
         return auctionRepository.findAll(spec, pageable)
-                .map(::convertAuctionToDto)
+                .map{a -> AuctionDto.Map.fromAuction(gson, a)}
     }
 
-    override fun getAuctionDtoById(id: UUID) = convertAuctionToDto(auctionRepository.findById(id).orElseThrow { AuctionNotFoundException() })
+    override fun getAuctionDtoById(id: UUID) =
+            AuctionDto.Map.fromAuction(gson, auctionRepository.findById(id).orElseThrow { AuctionNotFoundException() })
 
     override fun getById(id: UUID): Auction =
             auctionRepository.findById(id).orElseThrow { AuctionNotFoundException() }
@@ -94,7 +95,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
             throw AuctionAlreadyFinishedException()
 
         auction.finish()
-        return convertAuctionToDto(auctionRepository.save(auction))
+        return AuctionDto.Map.fromAuction(gson, auctionRepository.save(auction))
     }
 
     @Transactional
@@ -183,35 +184,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
         }
 
         return auctionRepository.findAll(spec, pageable)
-                .map(::convertAuctionToDto)
+                .map{a -> AuctionDto.Map.fromAuction(gson, a)}
     }
-
-    override fun convertAuctionToDto(auction: Auction) =
-            AuctionDto(auction.id,
-                    auction.customer.id,
-                    auction.city,
-                    DateUtils.addMinutes(auction.endDate, -5),
-                    gson.fromJson(auction.photos, jsonListOfStringType),
-                    auction.startPrice,
-                    auction.carBrand,
-                    auction.carModel,
-                    auction.carVersion,
-                    auction.carFabricationYear,
-                    auction.carModelYear,
-                    auction.carFuelType,
-                    auction.carKm,
-                    gson.fromJson(auction.carOptions, jsonListOfStringType),
-                    auction.carTransmission,
-                    gson.fromJson(auction.carConditions, jsonListOfAuctionCarOption),
-                    auction.manuallyFinishedAt,
-                    auction.createdDate,
-                    auction.currentPrice,
-                    auction.productType,
-                    gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
-                    auction.carIsArmored,
-                    auction.isPaid!!,
-                    auction.isFinished(),
-                    auction.carColor)
 
     override fun convertAuctionToCreateDto(auction: Auction) =
             CreateOrUpdateAuctionDto(auction.id,

@@ -1,5 +1,6 @@
 package br.com.bidei.bid.api.controller
 
+import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.application.dto.NewBidDto
 import br.com.bidei.bid.application.ports.BidService
@@ -49,6 +50,21 @@ class BidControllerImpl(private val bidService: BidService) : BidController {
         }
 
         return ResponseEntity.ok(bidService.findByCustomerIdAndAuctionId(customerId, auctionId, pageRequest))
+    }
+
+    override fun findAuctionsWithBidByCustomer(customerId: UUID,
+                                               page: Int,
+                                               sortBy: String,
+                                               direction: String,
+                                               perPage: Int): ResponseEntity<Page<AuctionDto>> {
+
+        var pageRequest = if (direction.toUpperCase() == "DESC") {
+            PageRequest.of(page, perPage, Sort.by(sortBy).descending())
+        } else {
+            PageRequest.of(page, perPage, Sort.by(sortBy).ascending())
+        }
+
+        return ResponseEntity.ok(bidService.findAuctionsWithBidByCustomer(customerId, pageRequest))
     }
 
     override fun findByAuctionId(auctionId: UUID,
