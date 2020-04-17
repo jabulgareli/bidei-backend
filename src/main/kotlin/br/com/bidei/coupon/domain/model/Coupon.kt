@@ -46,7 +46,7 @@ data class Coupon(
     fun isInvite() = this.type == CouponType.INVITE && this.partnerPrizeDaysLimit > 0
 
     fun isValidInvite(invitedAt: Timestamp) =
-            DateUtils.addDays(invitedAt, partnerPrizeDaysLimit) < DateUtils.utcNow()
+            DateUtils.addDays(invitedAt, partnerPrizeDaysLimit) >= DateUtils.utcNow()
 
 
     fun getPrizeAmount(amountPurchased: BigDecimal) =
