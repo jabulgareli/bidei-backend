@@ -16,7 +16,7 @@ data class CreateOrUpdateAuctionDto(
         val cityId: Long? = 0,
         @get:NotNull(message = "endDate is empty")
         @get:FutureOrPresent
-        val endDate: Timestamp? = null,
+        var endDate: Timestamp? = null,
         val photos: MutableList<String>? = arrayListOf(),
         @get:Min(message = "startPrice is empty", value = 0)
         val startPrice: BigDecimal? = null,
@@ -45,4 +45,9 @@ data class CreateOrUpdateAuctionDto(
         val carCharacteristics: List<String>? = emptyList(),
         val carIsArmored: Boolean? = false,
         val carColor: String? = null,
-        val isRegisterFinished: Boolean? = false)
+        val isRegisterFinished: Boolean? = false) {
+
+        fun updateEndDate(){
+                endDate = DateUtils.addDays(DateUtils.utcNow(), 1)
+        }
+}
