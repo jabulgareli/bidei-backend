@@ -67,6 +67,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                      pageable: Pageable): Page<AuctionDto> {
 
         val spec = AuctionSpecifications.isOpen()
+                .and(AuctionSpecifications.isRegisterFinished())!!
                 .and(AuctionSpecifications.withCarModel(model))!!
                 .and(AuctionSpecifications.withMinFabricationYear(minFabricationYear))!!
                 .and(AuctionSpecifications.withMaxKm(maxKm))!!
@@ -144,13 +145,14 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
         val customer = customerAcl.findById(auctionDto.customerId!!).orElse(null)
                 ?: throw CustomerNotFoundException()
 
-        val city = addressAcl.findCityById(auctionDto.cityId!!).orElse(null)
-                ?: throw CityNotFoundException()
+//        val city = addressAcl.findCityById(auctionDto.cityId!!).orElse(null)
+//                ?: throw CityNotFoundException()
 
         return Auction(
                 auctionDto.id ?: UUID.randomUUID(),
                 customer,
-                city,
+                //city,
+                customer.city,
                 auctionDto.endDate!!,
                 gson.toJson(auctionDto.photos),
                 auctionDto.startPrice!!,
@@ -170,7 +172,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 AuctionProductType.CAR,
                 gson.toJson(auctionDto.carCharacteristics),
                 auctionDto.carIsArmored,
-                carColor = auctionDto.carColor)
+                carColor = auctionDto.carColor,
+                isRegisterFinished = auctionDto.isRegisterFinished)
     }
 
     override fun getByCustomerId(customerId: UUID, onlyOpen: Boolean?, pageable: Pageable): Page<AuctionDto> {
@@ -210,7 +213,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     AuctionProductType.CAR,
                     gson.fromJson(auction.carCharacteristics, jsonListOfStringType),
                     auction.carIsArmored,
-                    carColor = auction.carColor)
+                    carColor = auction.carColor,
+                    isRegisterFinished = auction.isRegisterFinished)
 
     private fun getPathPhoto(id: UUID, name: String) =
             "auctions/${id}/" + name.replace(".png", "") + ".png"

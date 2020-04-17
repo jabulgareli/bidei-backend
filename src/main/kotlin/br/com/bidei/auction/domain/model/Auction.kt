@@ -41,7 +41,8 @@ data class Auction (
         val carCharacteristics: String? = "[]",
         val carIsArmored: Boolean? = false,
         val isPaid: Boolean? = false,
-        val carColor: String? = null) {
+        val carColor: String? = null,
+        val isRegisterFinished: Boolean? = false) {
 
 
     fun finish() {

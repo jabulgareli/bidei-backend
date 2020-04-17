@@ -13,13 +13,12 @@ import javax.validation.constraints.NotNull
 data class CreateOrUpdateAuctionDto(
         val id: UUID? = UUID.randomUUID(),
         var customerId: UUID?= UUID(0,0),
-        @get:Min(message = "cityId is empty", value = 1)
         val cityId: Long? = 0,
         @get:NotNull(message = "endDate is empty")
         @get:FutureOrPresent
         val endDate: Timestamp? = null,
         val photos: MutableList<String>? = arrayListOf(),
-        @get:Min(message = "startPrice is empty", value = 1)
+        @get:Min(message = "startPrice is empty", value = 0)
         val startPrice: BigDecimal? = null,
         @get:NotEmpty(message = "carBrand is empty")
         val carBrand: String? = null,
@@ -45,4 +44,5 @@ data class CreateOrUpdateAuctionDto(
         val productType: AuctionProductType? = AuctionProductType.CAR,
         val carCharacteristics: List<String>? = emptyList(),
         val carIsArmored: Boolean? = false,
-        val carColor: String? = null)
+        val carColor: String? = null,
+        val isRegisterFinished: Boolean? = false)

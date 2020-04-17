@@ -36,7 +36,8 @@ data class AuctionDto(
         val carIsArmored: Boolean? = false,
         val isPaid: Boolean,
         val isFinished: Boolean,
-        val carColor: String? = null){
+        val carColor: String? = null,
+        val isRegisterFinished: Boolean? = false){
 
     object Map {
         fun fromAuction(gson: Gson, auction: Auction, showOriginalIsPaid: Boolean = true) =
@@ -64,7 +65,8 @@ data class AuctionDto(
                     auction.carIsArmored,
                     if (showOriginalIsPaid) auction.isPaid!! else false,
                     auction.isFinished(),
-                    auction.carColor)
+                    auction.carColor,
+                    auction.isRegisterFinished)
         }
 
 }

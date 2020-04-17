@@ -68,4 +68,9 @@ object AuctionSpecifications{
         criteriaBuilder.isNull(root.get<Date?>("manuallyFinishedAt"))
     }
 
+    fun isRegisterFinished():  Specification<Auction> = Specification {
+        root, _, criteriaBuilder ->
+        criteriaBuilder.equal(root.get<Boolean>("isRegisterFinished"), true)
+    }
+
 }
