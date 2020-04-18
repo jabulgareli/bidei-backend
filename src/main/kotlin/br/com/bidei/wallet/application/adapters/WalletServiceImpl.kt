@@ -29,6 +29,9 @@ class WalletServiceImpl(
         private val couponAclPort: CouponAclPort
 ) : WalletService, EntityOwnerServiceBase<WalletCustomer, UUID>() {
 
+    override fun get(customerId: UUID) =
+            WalletDto(verifyOrCreateWalletAccount(customerId).bids)
+
     override fun addCard(createCardDto: CreateCardDto) {
         val wallet = verifyOrCreateWalletAccount(createCardDto.customerId!!)
         val token = integrationsPaymentsAcl.createPaymentToken(IuguPaymentTokenRequest.Map.from(iuguConfig, createCardDto))

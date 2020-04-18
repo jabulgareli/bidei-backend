@@ -10,6 +10,9 @@ import java.util.*
 @RequestMapping("api/v1/wallet")
 interface WalletController {
 
+    @GetMapping("/{customerId}")
+    fun get(@PathVariable customerId: UUID): ResponseEntity<WalletDto>
+
     @GetMapping("/{customerId}/payment-methods")
     fun listPaymentMethods(@PathVariable customerId: UUID): ResponseEntity<ArrayList<PaymentMethodsDto>>
 
