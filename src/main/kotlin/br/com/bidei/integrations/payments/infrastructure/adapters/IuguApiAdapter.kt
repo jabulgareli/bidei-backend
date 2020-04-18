@@ -27,6 +27,7 @@ class IuguApiAdapter(
         val response = okHttpClient
                 .newCall(
                         Request.Builder()
+                                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8")
                                 .url("${iuguConfig.url}/v1/customers${withApiToken()}")
                                 .post(gson.toJson(iuguCustomerRequest).toRequestBody())
                                 .build())
@@ -39,6 +40,7 @@ class IuguApiAdapter(
         val response = okHttpClient
                 .newCall(
                         Request.Builder()
+                                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8")
                                 .url("${iuguConfig.url}/v1/payment_token${withApiToken()}")
                                 .post(gson.toJson(iuguPaymentTokenRequest).toRequestBody())
                                 .build())
@@ -64,6 +66,7 @@ class IuguApiAdapter(
         val response = okHttpClient
                 .newCall(
                         Request.Builder()
+                                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8")
                                 .url("${iuguConfig.url}/v1/customers/${iuguCustomerId}/payment_methods${withApiToken()}")
                                 .get()
                                 .build())
@@ -76,6 +79,7 @@ class IuguApiAdapter(
         val response = okHttpClient
                 .newCall(
                         Request.Builder()
+                                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8")
                                 .url("${iuguConfig.url}/v1/customers/${iuguCustomerId}/payment_methods/${paymentMethodsId}${withApiToken()}")
                                 .delete()
                                 .build())

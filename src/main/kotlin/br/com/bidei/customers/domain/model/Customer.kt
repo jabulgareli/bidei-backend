@@ -31,8 +31,18 @@ class Customer(
         var inviteCoupon: Coupon? = null,
         var invitedAt: Timestamp? = null
 ) {
-        fun phonePrefix() = phone.substring(0, 3)
-        fun phone() = phone.substring(3, phone.length)
+        fun phonePrefix(): String {
+                if(phone[0] == '0')
+                        return phone.substring(0, 3)
+                return "0" + phone.substring(0, 2)
+        }
+
+        fun phone(): String{
+                if(phone[0] == '0')
+                        return phone.substring(3, phone.length)
+
+                return phone.substring(2, phone.length)
+        }
 
         fun receiveInviteFromPartner(coupon: Coupon){
                 if (coupon.partner.id == this.id)
