@@ -51,7 +51,7 @@ class WalletServiceImpl(
 
     @Transactional
     override fun newCardTransaction(walletCardChargeDto: WalletCardChargeDto): WalletChargeResponseDto {
-        val walletCustomer = walletCustomerRepository.findByCustomerId(walletCardChargeDto.customerId!!).get()
+        val walletCustomer = verifyOrCreateWalletAccount(walletCardChargeDto.customerId!!)
         val iuguChargeResponse = integrationsPaymentsAcl.charge(IuguChargeRequest.Map.from(walletCustomer, walletCardChargeDto))
         val walletChargeResponseDto = WalletChargeResponseDto.Map.from(iuguChargeResponse)
         chargeWalletWhenCard(walletCustomer, walletCardChargeDto, walletChargeResponseDto)
@@ -60,7 +60,7 @@ class WalletServiceImpl(
 
     @Transactional
     override fun newBidDebitTransaction(walletBalanceDebitDto: WalletBidDebitDto) {
-        val walletCustomer = walletCustomerRepository.findByCustomerId(walletBalanceDebitDto.customerId).get()
+        val walletCustomer = verifyOrCreateWalletAccount(walletBalanceDebitDto.customerId)
         walletStatementService.newWalletBalanceDebitTransaction(walletCustomer, walletBalanceDebitDto)
         walletCustomer.chargeWallet(walletBalanceDebitDto.bids.negate())
         walletCustomerRepository.save(walletCustomer)
@@ -68,7 +68,7 @@ class WalletServiceImpl(
 
     @Transactional
     override fun newCouponCreditTransaction(walletCouponCreditBidDto: WalletCouponCreditBidDto) {
-        val walletCustomer = walletCustomerRepository.findByCustomerId(walletCouponCreditBidDto.customerId).get()
+        val walletCustomer = verifyOrCreateWalletAccount(walletCouponCreditBidDto.customerId)
         walletStatementService.newWalletCouponCreditTransaction(walletCustomer, walletCouponCreditBidDto)
         walletCustomer.chargeWallet(walletCouponCreditBidDto.bids)
         walletCustomerRepository.save(walletCustomer)
@@ -81,7 +81,7 @@ class WalletServiceImpl(
         val aggregate = statements.groupBy { t -> DateUtils.dateWithoutTime(t.createdAt!!) }
                 .map { t ->
                     WalletTransactionsPerDateDto(t.key,
-                            t.value.map { t -> WalletTransactionDto.Map.fromWalletStatement(t) })
+                            t.value.map { w -> WalletTransactionDto.Map.fromWalletStatement(w) })
                 }
         return PageImpl(aggregate, pageable, aggregate.size.toLong())
     }

@@ -46,7 +46,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
     override fun update(customerId: UUID, auctionDto: CreateOrUpdateAuctionDto): AuctionDto {
         checkOwner(auctionDto.id!!, customerId)
 
-        val auction = auctionRepository.findById(auctionDto.id!!)
+        val auction = auctionRepository.findById(auctionDto.id)
 
         if(auctionDto.isRegisterFinished == true && auction.get().isRegisterFinished == false)
             auctionDto.updateEndDate()
@@ -160,7 +160,6 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 //city,
                 customer.city,
                 auctionDto.endDate!!,
-                gson.toJson(auctionDto.photos),
                 auctionDto.startPrice!!,
                 auctionDto.carBrand!!,
                 auctionDto.carModel!!,
@@ -201,7 +200,6 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.customer.id,
                     auction.city.id,
                     auction.endDate,
-                    gson.fromJson(auction.photos, jsonListOfStringType),
                     auction.startPrice,
                     auction.carBrand,
                     auction.carModel,

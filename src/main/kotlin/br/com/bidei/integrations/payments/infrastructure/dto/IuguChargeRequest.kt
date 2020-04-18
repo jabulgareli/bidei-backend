@@ -1,6 +1,6 @@
 package br.com.bidei.integrations.payments.infrastructure.dto
 
-import br.com.bidei.wallet.constants.BidConfig
+import br.com.bidei.wallet.constants.PriceConfig
 import br.com.bidei.wallet.domain.dto.WalletCardChargeDto
 import br.com.bidei.wallet.domain.model.WalletCustomer
 import com.google.gson.annotations.SerializedName
@@ -21,7 +21,7 @@ data class IuguChargeRequest(
                                 walletCustomer.referenceId,
                                 walletCardChargeDto.email,
                                 arrayListOf(IuguChargeItemDto.Map.from(walletCardChargeDto.quantity,
-                                        BidConfig.BID_UNIT_PRICE.multiply(BigDecimal.valueOf(100)).toInt()))
+                                        PriceConfig.BID_UNIT_PRICE.multiply(BigDecimal.valueOf(100)).toInt()))
                         )
         }
 }

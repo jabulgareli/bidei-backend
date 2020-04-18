@@ -1,6 +1,6 @@
 package br.com.bidei.wallet.domain.dto
 
-import br.com.bidei.wallet.constants.BidConfig
+import br.com.bidei.wallet.constants.PriceConfig
 import java.math.BigDecimal
 import java.util.*
 
@@ -12,6 +12,6 @@ data class WalletCouponCreditBidDto (
         val operationDescription: String = "Cupom aplicado"
 ){
     fun getAmount(): BigDecimal {
-        return  bids.multiply(BidConfig.BID_UNIT_PRICE)
+        return  bids.multiply(PriceConfig.BID_UNIT_PRICE)
     }
 }

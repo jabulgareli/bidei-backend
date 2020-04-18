@@ -1,6 +1,6 @@
 package br.com.bidei.wallet.domain.dto
 
-import br.com.bidei.wallet.constants.BidConfig
+import br.com.bidei.wallet.constants.PriceConfig
 import java.math.BigDecimal
 import java.util.*
 
@@ -11,6 +11,6 @@ data class WalletBidDebitDto  (
         val operationDescription: String = "BID realizado"
 ){
     fun getAmount(): BigDecimal{
-        return  bids.negate().multiply(BidConfig.BID_UNIT_PRICE)
+        return  bids.negate().multiply(PriceConfig.BID_UNIT_PRICE)
     }
 }

@@ -18,8 +18,6 @@ data class Auction (
         @OneToOne
         val city: City,
         val endDate: Timestamp,
-        @Lob
-        var photos: String? = "[]",
         val startPrice: BigDecimal,
         val carBrand: String,
         val carModel: String,
@@ -42,7 +40,9 @@ data class Auction (
         val carIsArmored: Boolean? = false,
         val isPaid: Boolean? = false,
         val carColor: String? = null,
-        val isRegisterFinished: Boolean? = false) {
+        val isRegisterFinished: Boolean? = false,
+        @Lob
+        var photos: String? = "[]") {
 
 
     fun finish() {

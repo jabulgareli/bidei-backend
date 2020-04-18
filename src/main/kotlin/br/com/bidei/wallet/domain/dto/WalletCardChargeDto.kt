@@ -1,6 +1,6 @@
 package br.com.bidei.wallet.domain.dto
 
-import br.com.bidei.wallet.constants.BidConfig
+import br.com.bidei.wallet.constants.PriceConfig
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
@@ -28,6 +28,6 @@ data class WalletCardChargeDto(
         }
 
         fun getAmount(): BigDecimal{
-                return quantity.multiply(BidConfig.BID_UNIT_PRICE)
+                return quantity.multiply(PriceConfig.BID_UNIT_PRICE)
         }
 }

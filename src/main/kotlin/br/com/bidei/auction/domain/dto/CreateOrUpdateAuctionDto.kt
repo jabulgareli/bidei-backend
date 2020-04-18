@@ -17,7 +17,6 @@ data class CreateOrUpdateAuctionDto(
         @get:NotNull(message = "endDate is empty")
         @get:FutureOrPresent
         var endDate: Timestamp? = null,
-        val photos: MutableList<String>? = arrayListOf(),
         @get:Min(message = "startPrice is empty", value = 0)
         val startPrice: BigDecimal? = null,
         @get:NotEmpty(message = "carBrand is empty")

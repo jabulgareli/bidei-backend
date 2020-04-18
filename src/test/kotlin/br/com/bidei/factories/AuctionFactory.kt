@@ -26,7 +26,6 @@ object AuctionFactory{
                     customer,
                     city,
                     getDaysFromNow(daysToEndDate)!!,
-                    null,
                     defaultCarStartPrice,
                     "Chevrolet",
                     "Cruze",
