@@ -37,13 +37,13 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
                                 @Autowired private val statesRepository: StatesRepository,
                                 @Autowired private val gson: Gson) {
 
-    private inline fun <reified T> Gson.fromJson(json: String) = fromJson<T>(json, object: TypeToken<T>() {}.type)
+    private inline fun <reified T> Gson.fromJson(json: String) = fromJson<T>(json, object : TypeToken<T>() {}.type)
 
 
     private val validCustomer = CustomerFactory.newCustomer()
     private val validState = AddressFactory.newValidState()
     private val validCity = AddressFactory.newValidCity(validState)
-    private val validAuction = AuctionFactory.newAuction(30, validCustomer,validCity, null)
+    private val validAuction = AuctionFactory.newAuction(30, validCustomer, validCity, null)
 
     @BeforeAll
     fun setUp() {
@@ -59,7 +59,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
     }
 
     @AfterAll
-    fun tearDown(){
+    fun tearDown() {
         auctionRepository.deleteAll()
         customersRepository.deleteAll()
         citiesRepository.deleteAll()
@@ -69,7 +69,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When get on Auctions should list all auctions`(){
+    fun `When get on Auctions should list all auctions`() {
         val result =
                 mockMvc.perform(MockMvcRequestBuilders.get("/public/api/v1/auctions"))
                         .andExpect(MockMvcResultMatchers.status().isOk)
@@ -83,7 +83,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When get on Auctions with a id should return a auction`(){
+    fun `When get on Auctions with a id should return a auction`() {
         val result =
                 mockMvc.perform(MockMvcRequestBuilders.get("/public/api/v1/auctions/${validAuction.id}"))
                         .andExpect(MockMvcResultMatchers.status().isOk)
@@ -97,7 +97,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When get on Auctions with stateId should list all auctions of state`(){
+    fun `When get on Auctions with stateId should list all auctions of state`() {
         val result =
                 mockMvc.perform(MockMvcRequestBuilders.get("/public/api/v1/auctions?stateId=35"))
                         .andExpect(MockMvcResultMatchers.status().isOk)
@@ -111,7 +111,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When get on Auctions with stateId should list all auctions of city`(){
+    fun `When get on Auctions with stateId should list all auctions of city`() {
         val result =
                 mockMvc.perform(MockMvcRequestBuilders.get("/public/api/v1/auctions?cityId=3543402"))
                         .andExpect(MockMvcResultMatchers.status().isOk)
@@ -125,7 +125,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When post valid data should create new auction`(){
+    fun `When post valid data should create new auction`() {
         auctionRepository.deleteAll()
         val auctionDto = auctionService.convertAuctionToCreateDto(validAuction)
 
@@ -145,7 +145,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When put valid data should update a auction`(){
+    fun `When put valid data should update a auction`() {
         val auctionDto = auctionService.convertAuctionToCreateDto(validAuction)
 
         val result =
@@ -164,7 +164,7 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When put photo request should upload and associate photo to auction`(){
+    fun `When put photo request should upload and associate photo to auction`() {
         val photoRequest = AuctionFactory.newAuctionPhotoDto()
         val result =
                 mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/auctions/${validAuction.id}/photos")
@@ -183,7 +183,16 @@ class AuctionControllerImplTest(@Autowired private val mockMvc: MockMvc,
 
     @Test
     @WithMockUser
-    fun `When delete photo request should upload and disassociate photo to auction`(){
+    fun `When delete photo request should upload and disassociate photo to auction`() {
+        val photoRequest = AuctionFactory.newAuctionPhotoDto()
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/auctions/${validAuction.id}/photos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("customerId", validCustomer.id)
+                .content(gson.toJson(photoRequest)))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andReturn()
+
         val auction = auctionService.getAuctionDtoById(validAuction.id!!)
 
         val result =

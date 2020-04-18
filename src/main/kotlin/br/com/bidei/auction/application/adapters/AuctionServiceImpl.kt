@@ -125,7 +125,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
 
         auction.photos = gson.toJson(photos)
 
-        return update(customerId, convertAuctionToCreateDto(auction))
+        return AuctionDto.Map.fromAuction(gson, auctionRepository.save(auction))
     }
 
     @Transactional
@@ -144,7 +144,7 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
 
         auction.photos = gson.toJson(photos)
 
-        return update(customerId, convertAuctionToCreateDto(auction))
+        return AuctionDto.Map.fromAuction(gson, auctionRepository.save(auction))
     }
 
     override fun loadAuctionFromDto(auctionDto: CreateOrUpdateAuctionDto): Auction {
