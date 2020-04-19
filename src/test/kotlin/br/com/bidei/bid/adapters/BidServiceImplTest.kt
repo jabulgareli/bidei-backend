@@ -51,7 +51,7 @@ class BidServiceImplTest(@Autowired val bidService: BidService) {
     private val wallet = WalletFactory.newWalletCustomer(customer)
     private val bidRequest = BidFactory.newValidBidRequest()
     private val bid = Bid(auction = auction, customer = customer, value = BidFactory.defaultBid, priceOnBid = auction.startPrice, createdDate = DateUtils.utcNow())
-
+    private val listBid = mutableListOf(bid)
 
     @BeforeEach
     fun setUp(){
@@ -62,7 +62,7 @@ class BidServiceImplTest(@Autowired val bidService: BidService) {
         given(walletStatementRepository.save(Mockito.any(WalletStatement::class.java))).willReturn(null)
         given(bidRepository.findByCustomerIdAndAuctionIdAndValueAndPriceOnBidAndCreatedDateGreaterThanEqual(customer.id, auction.id!!,
                 bidRequest.value!!, bidRequest.currentPrice!!, DateUtils.addMinutes(DateUtils.utcNow(), -5) ))
-                .willReturn(Optional.of(bid))
+                .willReturn(Optional.of(listBid))
 
         given(auctionRepository.acceptBid(auction.id!!, bidRequest.value!!, bidRequest.currentPrice!!)).willReturn(1)
 
