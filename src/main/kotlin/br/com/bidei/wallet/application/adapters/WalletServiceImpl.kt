@@ -128,6 +128,7 @@ class WalletServiceImpl(
         }
     }
 
+    @Synchronized
     private fun verifyOrCreateWalletAccount(customerId: UUID): WalletCustomer {
         // Check if wallet exists
         val wallet = walletCustomerRepository.findByCustomerId(customerId)
