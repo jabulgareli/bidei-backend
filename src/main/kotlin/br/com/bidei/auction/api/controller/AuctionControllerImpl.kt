@@ -4,6 +4,7 @@ import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
 import br.com.bidei.auction.application.ports.AuctionService
+import br.com.bidei.auction.domain.dto.PayAuctionDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -73,6 +74,11 @@ class AuctionControllerImpl(private val auctionService: AuctionService) : Auctio
                           auctionPhotoDto: AuctionPhotoDto,
                           auctionId: UUID) =
             ResponseEntity.ok(auctionService.addPhoto(customerId, auctionId, auctionPhotoDto))
+
+    override fun payAuction(customerId: UUID,
+                            auctionId: UUID,
+                            payAuctionDto: PayAuctionDto): ResponseEntity<Unit> =
+            ResponseEntity.ok(auctionService.payAuction(customerId, auctionId, payAuctionDto))
 
     override fun removePhoto(customerId: UUID,
                              auctionId: UUID,

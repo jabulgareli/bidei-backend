@@ -38,7 +38,7 @@ data class Auction (
         @Lob
         val carCharacteristics: String? = "[]",
         val carIsArmored: Boolean? = false,
-        val isPaid: Boolean? = false,
+        var isPaid: Boolean? = false,
         val carColor: String? = null,
         val isRegisterFinished: Boolean? = false,
         @Lob

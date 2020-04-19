@@ -13,5 +13,6 @@ interface WalletService {
     fun newCardTransaction(walletCardChargeDto: WalletCardChargeDto): WalletChargeResponseDto
     fun newBidDebitTransaction(walletBalanceDebitDto: WalletBidDebitDto)
     fun newCouponCreditTransaction(walletCouponCreditBidDto: WalletCouponCreditBidDto)
+    fun newAuctionPaymentTransaction(walletAuctionPaymentTransactionDto: WalletAuctionPaymentTransactionDto)
     fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletTransactionsPerDateDto>
 }

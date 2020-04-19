@@ -3,6 +3,7 @@ package br.com.bidei.customers.domain.model
 import br.com.bidei.address.domain.model.City
 import br.com.bidei.coupon.domain.model.Coupon
 import br.com.bidei.utils.DateUtils
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.sql.Timestamp
 import java.util.*
 import javax.persistence.Entity
@@ -28,6 +29,7 @@ class Customer(
         @NotNull
         val provider: String,
         @OneToOne
+        @JsonIgnore
         var inviteCoupon: Coupon? = null,
         var invitedAt: Timestamp? = null
 ) {

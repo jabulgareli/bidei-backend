@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 import java.util.*
 
 @Service
@@ -75,6 +76,20 @@ class WalletServiceImpl(
         walletStatementService.newWalletCouponCreditTransaction(walletCustomer, walletCouponCreditBidDto)
         walletCustomer.chargeWallet(walletCouponCreditBidDto.bids)
         walletCustomerRepository.save(walletCustomer)
+    }
+
+    override fun newAuctionPaymentTransaction(walletAuctionPaymentTransactionDto: WalletAuctionPaymentTransactionDto) {
+        val walletCustomer = verifyOrCreateWalletAccount(walletAuctionPaymentTransactionDto.customer.id)
+
+        val iuguChargeResponse = integrationsPaymentsAcl.charge(IuguChargeRequest.Map.forAuctionPayment(walletCustomer,
+                walletAuctionPaymentTransactionDto.paymentReferenceId,
+                walletAuctionPaymentTransactionDto.customer))
+
+        val walletChargeResponseDto = WalletChargeResponseDto.Map.from(iuguChargeResponse)
+
+        walletStatementService.newAuctionPaymentTransaction(walletCustomer,
+                walletAuctionPaymentTransactionDto,
+                walletChargeResponseDto)
     }
 
     override fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletTransactionsPerDateDto> {

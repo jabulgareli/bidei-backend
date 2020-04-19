@@ -35,7 +35,7 @@ data class IuguChargeRequest(
                         arrayListOf(IuguChargeItemDto(
                                 description = "Compra do leilão em bidei.com.br",
                                 quantity = 1,
-                                priceCents = PriceConfig.BID_UNIT_PRICE.multiply(BigDecimal.valueOf(100)).toInt())))
+                                priceCents = PriceConfig.AUCTION_PRICE.multiply(BigDecimal.valueOf(100)).toInt())))
     }
 }
 

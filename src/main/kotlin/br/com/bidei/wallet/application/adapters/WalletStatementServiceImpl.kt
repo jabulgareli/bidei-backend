@@ -1,15 +1,13 @@
 package br.com.bidei.wallet.application.adapters
 
 import br.com.bidei.wallet.application.ports.WalletStatementService
-import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
-import br.com.bidei.wallet.domain.dto.WalletCardChargeDto
-import br.com.bidei.wallet.domain.dto.WalletChargeResponseDto
-import br.com.bidei.wallet.domain.dto.WalletCouponCreditBidDto
+import br.com.bidei.wallet.domain.dto.*
 import br.com.bidei.wallet.domain.model.WalletCustomer
 import br.com.bidei.wallet.domain.model.WalletStatement
 import br.com.bidei.wallet.domain.ports.repository.WalletStatementRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.*
 
 @Service
@@ -68,6 +66,26 @@ class WalletStatementServiceImpl(
                         amount = walletCouponCreditBidDto.getAmount(),
                         operationDescription = walletCouponCreditBidDto.operationDescription,
                         coupon = walletCouponCreditBidDto.coupon
+                )
+        )
+    }
+
+    override fun newAuctionPaymentTransaction(walletCustomer: WalletCustomer,
+                                              walletAuctionPaymentTransactionDto: WalletAuctionPaymentTransactionDto,
+                                              walletChargeResponseDto: WalletChargeResponseDto) {
+        walletStatementRepository.save(
+                WalletStatement(
+                        walletCustomer = walletCustomer,
+                        source = walletAuctionPaymentTransactionDto.source.name,
+                        success = walletChargeResponseDto.success,
+                        message = walletChargeResponseDto.message,
+                        url = walletChargeResponseDto.url,
+                        pdf = walletChargeResponseDto.pdf,
+                        invoiceId = walletChargeResponseDto.invoiceId,
+                        transactionCode = walletChargeResponseDto.LR,
+                        bids = BigDecimal.ZERO,
+                        amount = walletAuctionPaymentTransactionDto.getAmount(),
+                        operationDescription = walletAuctionPaymentTransactionDto.operationDescription
                 )
         )
     }

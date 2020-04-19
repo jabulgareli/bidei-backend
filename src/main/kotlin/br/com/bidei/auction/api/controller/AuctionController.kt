@@ -3,6 +3,7 @@ package br.com.bidei.auction.api.controller
 import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.dto.PayAuctionDto
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -51,6 +52,11 @@ interface AuctionController {
     fun addPhoto(@RequestHeader("customerId") customerId: UUID,
                  @Valid @RequestBody auctionPhotoDto: AuctionPhotoDto,
                  @PathVariable auctionId: UUID): ResponseEntity<AuctionDto>
+
+    @PostMapping("$PRIVATE/{auctionId}/pay")
+    fun payAuction(@RequestHeader("customerId") customerId: UUID,
+                   @PathVariable auctionId: UUID,
+                   @RequestBody payAuctionDto: PayAuctionDto): ResponseEntity<Unit>
 
     @DeleteMapping("$PRIVATE/{auctionId}/photos/{photoName}")
     fun removePhoto(@RequestHeader("customerId") customerId: UUID,

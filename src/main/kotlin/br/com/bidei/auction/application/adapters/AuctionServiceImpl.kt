@@ -13,7 +13,9 @@ import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.auction.domain.ports.services.FileUploadServicePort
 import br.com.bidei.auction.domain.specifications.AuctionSpecifications
 import br.com.bidei.acl.ports.CustomersAclPort
+import br.com.bidei.acl.ports.WalletAclPort
 import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.dto.PayAuctionDto
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.domain.exception.PriceChangedException
 import br.com.bidei.cross.services.EntityOwnerServiceBase
@@ -21,6 +23,7 @@ import br.com.bidei.utils.DateUtils
 import br.com.bidei.utils.jsonListOfAuctionCarOption
 import br.com.bidei.utils.jsonListOfStringType
 import br.com.bidei.utils.jsonMapOfStringType
+import br.com.bidei.wallet.domain.dto.WalletAuctionPaymentTransactionDto
 import com.google.gson.Gson
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -35,7 +38,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                          private val customerAcl: CustomersAclPort,
                          private val addressAcl: AddressAclPort,
                          private val gson: Gson,
-                         private val fileUploadServicePort: FileUploadServicePort
+                         private val fileUploadServicePort: FileUploadServicePort,
+                         private val walletAclPort: WalletAclPort
 ) : AuctionService, EntityOwnerServiceBase<Auction, UUID>() {
 
     @Transactional
@@ -219,6 +223,25 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                     auction.carIsArmored,
                     carColor = auction.carColor,
                     isRegisterFinished = auction.isRegisterFinished)
+
+    @Transactional
+    override fun payAuction(customerId: UUID, auctionId: UUID, payAuctionDto: PayAuctionDto) {
+        checkOwner(auctionId, customerId)
+
+        val customer = customerAcl.findById(customerId).get()
+        val auction = auctionRepository.findById(auctionId).orElseThrow{ AuctionNotFoundException() }
+
+        if (auction.isPaid == true)
+            throw AuctionAlreadyFinishedException()
+
+        walletAclPort.newAuctionPaymentTransaction(WalletAuctionPaymentTransactionDto(
+                customer,
+                payAuctionDto.paymentMethodId
+        ))
+
+        auction.isPaid = true
+        auctionRepository.save(auction)
+    }
 
     private fun getPathPhoto(id: UUID, name: String) =
             "auctions/${id}/" + name.replace(".png", "") + ".png"

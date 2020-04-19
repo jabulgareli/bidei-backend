@@ -3,6 +3,7 @@ package br.com.bidei.auction.application.ports
 import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
+import br.com.bidei.auction.domain.dto.PayAuctionDto
 import br.com.bidei.auction.domain.model.Auction
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -43,4 +44,7 @@ interface AuctionService {
 
     fun loadAuctionFromDto(auctionDto: CreateOrUpdateAuctionDto): Auction
     fun convertAuctionToCreateDto(auction: Auction): CreateOrUpdateAuctionDto
+    fun payAuction(customerId: UUID,
+                   auctionId: UUID,
+                   payAuctionDto: PayAuctionDto)
 }
