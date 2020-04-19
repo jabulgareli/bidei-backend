@@ -119,25 +119,26 @@ internal class WalletControllerImplTest(
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError)
     }
 
-    @Test
-    @WithMockUser
-    fun `When valid data and customer exists but wallet-customer not exists should create wallet-customer and payment method`() {
-        walletCustomerRepository.deleteAll()
-        val createCardDto = WalletFactory.newCreateCardDto()
-
-        given(integrationsPaymentsAcl.createCustomer(IuguCustomerRequest.Map.from(CustomerFactory.newCustomer()))).willReturn(IuguFactory.newIuguCustomerResponse())
-        given(integrationsPaymentsAcl.createPaymentToken(IuguFactory.newIuguPaymentTokenRequest(iuguConfig))).willReturn(IuguFactory.newIuguPaymentTokenResponse())
-        given(integrationsPaymentsAcl.createPaymentMethods(IuguFactory.customerId.toString(), IuguFactory.newIuguPaymentMethodsRequest())).willReturn(true)
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/v1/wallet/payment-methods")
-                        .header("customerId", CustomerFactory.customerId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(createCardDto)))
-                .andExpect(MockMvcResultMatchers.status().isOk)
-
-        assertEquals(walletCustomerRepository.findAll().size, 1)
-    }
+//    Teste não faz mais sentido
+//    @Test
+//    @WithMockUser
+//    fun `When valid data and customer exists but wallet-customer not exists should create wallet-customer and payment method`() {
+//        walletCustomerRepository.deleteAll()
+//        val createCardDto = WalletFactory.newCreateCardDto()
+//
+//        given(integrationsPaymentsAcl.createCustomer(IuguCustomerRequest.Map.from(CustomerFactory.newCustomer()))).willReturn(IuguFactory.newIuguCustomerResponse())
+//        given(integrationsPaymentsAcl.createPaymentToken(IuguFactory.newIuguPaymentTokenRequest(iuguConfig))).willReturn(IuguFactory.newIuguPaymentTokenResponse())
+//        given(integrationsPaymentsAcl.createPaymentMethods(IuguFactory.customerId.toString(), IuguFactory.newIuguPaymentMethodsRequest())).willReturn(true)
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .post("/api/v1/wallet/payment-methods")
+//                        .header("customerId", CustomerFactory.customerId)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(gson.toJson(createCardDto)))
+//                .andExpect(MockMvcResultMatchers.status().isOk)
+//
+//        assertEquals(walletCustomerRepository.findAll().size, 1)
+//    }
 
     @Test
     @WithMockUser

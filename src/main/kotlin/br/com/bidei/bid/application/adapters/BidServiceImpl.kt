@@ -38,7 +38,7 @@ class BidServiceImpl(
     override fun newBid(newBidDto: NewBidDto): Bid {
         val customer = customersAclPort.findById(newBidDto.customerId!!).get()
 
-        if(!walletAclPort.isWalletCreated(customer.id))
+        if(!walletAclPort.hasWallet(customer.id))
             throw InsufficientBalanceOnWalletException()
 
         val auction = auctionAclPort.findById(newBidDto.auctionId!!)

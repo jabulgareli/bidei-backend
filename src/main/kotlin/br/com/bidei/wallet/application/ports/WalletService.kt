@@ -1,13 +1,16 @@
 package br.com.bidei.wallet.application.ports
 
+import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.wallet.domain.dto.*
+import br.com.bidei.wallet.domain.model.WalletCustomer
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import java.util.*
 
 interface WalletService {
+    fun create(customer: Customer): WalletCustomer
     fun get(customerId: UUID): WalletDto
-    fun isWalletCreated(customerId: UUID): Boolean
+    fun hasWallet(customerId: UUID): Boolean
     fun addCard(createCardDto: CreateCardDto)
     fun listPaymentMethods(customerId: UUID): ArrayList<PaymentMethodsDto>
     fun removeCard(customerId: UUID, paymentMethodId: String)

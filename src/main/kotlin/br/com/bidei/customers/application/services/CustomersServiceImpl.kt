@@ -1,6 +1,7 @@
 package br.com.bidei.customers.application.services
 
 import br.com.bidei.acl.ports.AddressAclPort
+import br.com.bidei.acl.ports.WalletAclPort
 import br.com.bidei.customers.application.exceptions.CityNotFoundException
 import br.com.bidei.customers.application.exceptions.CustomerAlreadyRegisteredException
 import br.com.bidei.customers.application.exceptions.CustomerNotFoundException
@@ -16,7 +17,8 @@ import java.util.*
 @Service
 class CustomersServiceImpl(
         private val customersRepository: CustomersRepository,
-        private val addressAclPort: AddressAclPort
+        private val addressAclPort: AddressAclPort,
+        private val walletAclPort: WalletAclPort
 ) : CustomersService {
 
     override fun findById(id: UUID): Optional<Customer> = customersRepository.findById(id)
@@ -42,7 +44,11 @@ class CustomersServiceImpl(
         if (customerExistsByEmail(customer.email).isPresent)
             throw CustomerAlreadyRegisteredException()
 
-        return  customersRepository.save(customer.toCustomer(city.get()))
+        val customer = customersRepository.save(customer.toCustomer(city.get()))
+
+        walletAclPort.create(customer)
+
+        return customer
     }
 
     override fun update(customer: CustomerUpdateDto): Customer {
