@@ -33,6 +33,9 @@ class WalletServiceImpl(
     override fun get(customerId: UUID) =
             WalletDto(verifyOrCreateWalletAccount(customerId).bids)
 
+    override fun isWalletCreated(customerId: UUID) =
+            walletCustomerRepository.findByCustomerId(customerId).isPresent
+
     override fun addCard(createCardDto: CreateCardDto) {
         val wallet = verifyOrCreateWalletAccount(createCardDto.customerId!!)
         val token = integrationsPaymentsAcl.createPaymentToken(IuguPaymentTokenRequest.Map.from(iuguConfig, createCardDto))
@@ -78,6 +81,7 @@ class WalletServiceImpl(
         walletCustomerRepository.save(walletCustomer)
     }
 
+    @Transactional
     override fun newAuctionPaymentTransaction(walletAuctionPaymentTransactionDto: WalletAuctionPaymentTransactionDto) {
         val walletCustomer = verifyOrCreateWalletAccount(walletAuctionPaymentTransactionDto.customer.id)
 

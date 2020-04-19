@@ -15,7 +15,7 @@ import java.util.*
 @Repository
 interface BidRepository : JpaRepository<Bid, UUID>, PagingAndSortingRepository<Bid, UUID> {
     fun findByCustomerIdAndAuctionIdAndValueAndPriceOnBidAndCreatedDateGreaterThanEqual(customerId: UUID, auctionId: UUID,
-                                                          value: BigDecimal, priceOnBid: BigDecimal, createdDate: Timestamp) : Optional<Bid>
+                                                          value: BigDecimal, priceOnBid: BigDecimal, createdDate: Timestamp) : Optional<List<Bid>>
 
     fun findByCustomerIdAndAuctionId(customerId: UUID, auctionId: UUID, pageable: Pageable): Page<Bid>
     fun findByAuctionId(auctionId: UUID, pageable: Pageable): Page<Bid>

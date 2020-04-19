@@ -6,10 +6,13 @@ import br.com.bidei.wallet.domain.dto.WalletAuctionPaymentTransactionDto
 import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
 import br.com.bidei.wallet.domain.dto.WalletCouponCreditBidDto
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class WalletAclAdapter(
         private val walletService: WalletService) : WalletAclPort {
+    override fun isWalletCreated(customerId: UUID) =
+            walletService.isWalletCreated(customerId)
 
     override fun newBalanceDebitTransaction(walletBalanceDebitDto: WalletBidDebitDto) {
         walletService.newBidDebitTransaction(walletBalanceDebitDto)

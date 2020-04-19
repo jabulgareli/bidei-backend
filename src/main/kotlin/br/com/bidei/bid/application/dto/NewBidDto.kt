@@ -6,7 +6,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotEmpty
 
 data class NewBidDto (
-    var customerId: UUID? = UUID.randomUUID(),
+    var customerId: UUID? = null,
     val auctionId: UUID? = null,
     @get:Min(value = 1)
     val value: BigDecimal? = BigDecimal.ZERO,

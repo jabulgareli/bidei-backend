@@ -16,6 +16,7 @@ import br.com.bidei.bid.domain.repository.BidRepository
 import br.com.bidei.bid.domain.repository.BidValueRepository
 import br.com.bidei.utils.DateUtils
 import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
+import br.com.bidei.wallet.domain.exceptions.InsufficientBalanceOnWalletException
 import com.google.gson.Gson
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -36,6 +37,10 @@ class BidServiceImpl(
     @Transactional
     override fun newBid(newBidDto: NewBidDto): Bid {
         val customer = customersAclPort.findById(newBidDto.customerId!!).get()
+
+        if(!walletAclPort.isWalletCreated(customer.id))
+            throw InsufficientBalanceOnWalletException()
+
         val auction = auctionAclPort.findById(newBidDto.auctionId!!)
 
         if(auction.isFinished())
