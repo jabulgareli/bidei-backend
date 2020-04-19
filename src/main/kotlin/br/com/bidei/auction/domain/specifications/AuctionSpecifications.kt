@@ -43,7 +43,7 @@ object AuctionSpecifications{
 
     fun withCustomerId(id: UUID): Specification<Auction> = Specification {
         root, _, criteriaBuilder ->
-        criteriaBuilder.lessThanOrEqualTo(root.get<Customer>("customer").get<UUID>("id"), id)
+        criteriaBuilder.equal(root.get<Customer>("customer").get<UUID>("id"), id)
     }
 
     fun isOpen(): Specification<Auction> = Specification.where(isNotExpired())!!.and(isNotManuallyFinished())!!
