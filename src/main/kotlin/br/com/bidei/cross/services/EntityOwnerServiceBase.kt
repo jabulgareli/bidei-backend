@@ -13,9 +13,6 @@ abstract class EntityOwnerServiceBase<T, U> {
     lateinit var repository: EntityOwnerRepositoryBase<T, U>
 
     fun checkOwner(id: UUID, customerId: UUID){
-        val e = repository.findByIdAndCustomerId(id, customerId).orElse(null)
-
-        if (e == null)
-            throw EntityNotOwnedByCustomer()
+        repository.findByIdAndCustomerId(id, customerId).orElse(null) ?: throw EntityNotOwnedByCustomer()
     }
 }

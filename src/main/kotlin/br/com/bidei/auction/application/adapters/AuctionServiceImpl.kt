@@ -50,12 +50,16 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
     override fun update(customerId: UUID, auctionDto: CreateOrUpdateAuctionDto): AuctionDto {
         checkOwner(auctionDto.id!!, customerId)
 
-        val auction = auctionRepository.findById(auctionDto.id)
+        val auction = getById(auctionDto.id)
 
-        if(auctionDto.isRegisterFinished == true && auction.get().isRegisterFinished == false)
+        if(auctionDto.isRegisterFinished == true && auction.isRegisterFinished == false)
             auctionDto.updateEndDate()
 
-        return AuctionDto.Map.fromAuction(gson, (auctionRepository.save(loadAuctionFromDto(auctionDto))))
+        val updatedAuction = loadAuctionFromDto(auctionDto)
+
+        updatedAuction.photos = auction.photos
+
+        return AuctionDto.Map.fromAuction(gson, (auctionRepository.save(updatedAuction)))
     }
 
     @Transactional

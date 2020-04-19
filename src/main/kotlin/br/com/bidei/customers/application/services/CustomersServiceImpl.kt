@@ -2,6 +2,7 @@ package br.com.bidei.customers.application.services
 
 import br.com.bidei.acl.ports.AddressAclPort
 import br.com.bidei.customers.application.exceptions.CityNotFoundException
+import br.com.bidei.customers.application.exceptions.CustomerAlreadyRegisteredException
 import br.com.bidei.customers.application.exceptions.CustomerNotFoundException
 import br.com.bidei.customers.application.exceptions.CustomerProviderNotFoundException
 import br.com.bidei.customers.domain.dto.CustomerDto
@@ -24,12 +25,24 @@ class CustomersServiceImpl(
 
     private fun customerExistsById(id: UUID) = customersRepository.findById(id)
 
+    private fun customerExistsByReferenceId(referenceId: String) = customersRepository.findByReferenceId(referenceId)
+
     override fun create(customer: CustomerDto): Customer {
         val city = addressAclPort.findCityById(customer.cityId)
-        if (!city.isPresent) throw CityNotFoundException()
-        if (!customer.isValidProvider()) throw CustomerProviderNotFoundException()
-        val newCustomer = customerExistsByEmail(customer.email)
-        return if (newCustomer.isPresent) newCustomer.get() else customersRepository.save(customer.toCustomer(city.get()))
+
+        if (!city.isPresent)
+            throw CityNotFoundException()
+
+        if (!customer.isValidProvider())
+            throw CustomerProviderNotFoundException()
+
+        if (customerExistsByReferenceId(customer.referenceId).isPresent)
+            throw CustomerAlreadyRegisteredException()
+
+        if (customerExistsByEmail(customer.email).isPresent)
+            throw CustomerAlreadyRegisteredException()
+
+        return  customersRepository.save(customer.toCustomer(city.get()))
     }
 
     override fun update(customer: CustomerUpdateDto): Customer {
