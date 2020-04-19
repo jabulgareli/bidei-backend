@@ -29,19 +29,22 @@ class WalletServiceImpl(
         private val walletStatementService: WalletStatementService,
         private val couponAclPort: CouponAclPort
 ) : WalletService, EntityOwnerServiceBase<WalletCustomer, UUID>() {
-
+    @Transactional
     override fun get(customerId: UUID) =
             WalletDto(verifyOrCreateWalletAccount(customerId).bids)
 
+    @Transactional
     override fun isWalletCreated(customerId: UUID) =
             walletCustomerRepository.findByCustomerId(customerId).isPresent
 
+    @Transactional
     override fun addCard(createCardDto: CreateCardDto) {
         val wallet = verifyOrCreateWalletAccount(createCardDto.customerId!!)
         val token = integrationsPaymentsAcl.createPaymentToken(IuguPaymentTokenRequest.Map.from(iuguConfig, createCardDto))
         integrationsPaymentsAcl.createPaymentMethods(wallet.referenceId, IuguPaymentMethodsRequest(createCardDto.description, token.id.toString()))
     }
 
+    @Transactional
     override fun listPaymentMethods(customerId: UUID): ArrayList<PaymentMethodsDto> {
         val wallet = verifyOrCreateWalletAccount(customerId)
         val listPaymentMethods = integrationsPaymentsAcl.listPaymentMethods(wallet.referenceId)
@@ -50,6 +53,7 @@ class WalletServiceImpl(
         }
     }
 
+    @Transactional
     override fun removeCard(customerId: UUID, paymentMethodId: String) {
         val wallet = verifyOrCreateWalletAccount(customerId)
         checkOwner(wallet.id!!, customerId)
@@ -96,6 +100,7 @@ class WalletServiceImpl(
                 walletChargeResponseDto)
     }
 
+    @Transactional
     override fun listWalletTransactionsByCustomer(customerId: UUID, pageable: Pageable): Page<WalletTransactionsPerDateDto> {
         val wallet = verifyOrCreateWalletAccount(customerId)
         val statements = walletStatementService.listWalletTransactionsByCustomer(wallet.id!!, pageable)
