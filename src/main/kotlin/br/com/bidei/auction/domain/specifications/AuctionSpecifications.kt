@@ -6,6 +6,7 @@ import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.utils.DateUtils
 import org.springframework.data.jpa.domain.Specification
+import java.sql.Timestamp
 import java.util.*
 
 object AuctionSpecifications{
@@ -28,12 +29,22 @@ object AuctionSpecifications{
 
     fun withMinFabricationYear(minFabricationYear: Int): Specification<Auction> = Specification {
         root, _, criteriaBuilder ->
-            if (minFabricationYear > 0 ) criteriaBuilder.greaterThanOrEqualTo(root.get("carFabricationYear"), minFabricationYear) else null
+            if (minFabricationYear > 1950) criteriaBuilder.greaterThanOrEqualTo(root.get("carFabricationYear"), minFabricationYear) else null
+    }
+
+    fun withMaxFabricationYear(maxFabricationYear: Int): Specification<Auction> = Specification {
+        root, _, criteriaBuilder ->
+        if (maxFabricationYear < DateUtils.getCurrentYear() && maxFabricationYear > 0) criteriaBuilder.lessThanOrEqualTo(root.get("carFabricationYear"), maxFabricationYear) else null
+    }
+
+    fun withMinKm(minKm: Int): Specification<Auction> = Specification {
+        root, _, criteriaBuilder ->
+        if (minKm > 0) criteriaBuilder.greaterThanOrEqualTo(root.get("carKm"), minKm) else null
     }
 
     fun withMaxKm(maxKm: Int): Specification<Auction> = Specification {
         root, _, criteriaBuilder ->
-            if (maxKm >= 0) criteriaBuilder.lessThanOrEqualTo(root.get("carKm"), maxKm) else null
+            if (maxKm in 1..219999) criteriaBuilder.lessThanOrEqualTo(root.get("carKm"), maxKm) else null
     }
 
     fun withStateId(stateId: Long): Specification<Auction> = Specification{

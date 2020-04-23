@@ -2,6 +2,7 @@ package br.com.bidei.auction.domain.dto
 
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.utils.DateUtils
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.math.BigDecimal
 import java.sql.Timestamp
 import java.util.*
@@ -14,9 +15,7 @@ data class CreateOrUpdateAuctionDto(
         val id: UUID? = UUID.randomUUID(),
         var customerId: UUID?= UUID(0,0),
         val cityId: Long? = 0,
-        @get:NotNull(message = "endDate is empty")
-        @get:FutureOrPresent
-        var endDate: Timestamp? = null,
+        var endDate: Timestamp? = DateUtils.utcNow(),
         @get:Min(message = "startPrice is empty", value = 0)
         val startPrice: BigDecimal? = null,
         @get:NotEmpty(message = "carBrand is empty")
@@ -31,7 +30,7 @@ data class CreateOrUpdateAuctionDto(
         val carModelYear: Int = 0,
         @get:NotEmpty(message = "carFuelType is empty")
         val carFuelType: String? = null,
-        @get:Min(message = "carKm is empty", value = 1)
+        @get:Min(message = "carKm is empty", value = 0)
         val carKm: Int = 0,
         val carOptions: List<String>? = emptyList(),
         @get:NotEmpty(message = "carTransmission is empty")

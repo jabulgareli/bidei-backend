@@ -20,6 +20,8 @@ class AuctionControllerImpl(private val auctionService: AuctionService) : Auctio
                      brand: String,
                      model: String,
                      minFabricationYear: Int,
+                     maxFabricationYear: Int,
+                     minKm: Int,
                      maxKm: Int,
                      page: Int,
                      sortBy: String,
@@ -32,7 +34,7 @@ class AuctionControllerImpl(private val auctionService: AuctionService) : Auctio
             PageRequest.of(page, perPage, Sort.by(sortBy).ascending())
         }
 
-        return ResponseEntity.ok(auctionService.get(cityId, stateId, brand, model, minFabricationYear, maxKm, pageRequest))
+        return ResponseEntity.ok(auctionService.get(cityId, stateId, brand, model, minFabricationYear, maxFabricationYear, minKm, maxKm, pageRequest))
     }
 
     override fun getById(auctionId: UUID) = auctionService.getAuctionDtoById(auctionId)

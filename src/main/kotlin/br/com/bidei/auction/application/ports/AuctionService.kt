@@ -23,6 +23,8 @@ interface AuctionService {
             brand: String,
             model: String,
             minFabricationYear: Int,
+            maxFabricationYear: Int,
+            minKm: Int,
             maxKm: Int,
             pageable: Pageable): Page<AuctionDto>
 

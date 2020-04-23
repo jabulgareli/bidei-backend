@@ -20,6 +20,8 @@ interface AuctionController {
             @RequestParam(value = "carBrand", defaultValue = "") brand: String,
             @RequestParam(value = "carModel", defaultValue = "") model: String,
             @RequestParam(value = "minFabricationYear", defaultValue = "0") minFabricationYear: Int,
+            @RequestParam(value = "maxFabricationYear", defaultValue = "0") maxFabricationYear: Int,
+            @RequestParam(value = "minKm", defaultValue = "-1") minKm: Int,
             @RequestParam(value = "maxKm", defaultValue = "-1") maxKm: Int,
             @RequestParam(value = "page", defaultValue = "0") page: Int,
             @RequestParam(value = "orderBy", defaultValue = "id") sortBy: String,

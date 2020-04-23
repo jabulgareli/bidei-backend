@@ -77,6 +77,8 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                      brand: String,
                      model: String,
                      minFabricationYear: Int,
+                     maxFabricationYear: Int,
+                     minKm: Int,
                      maxKm: Int,
                      pageable: Pageable): Page<AuctionDto> {
 
@@ -84,7 +86,9 @@ class AuctionServiceImpl(private val auctionRepository: AuctionRepository,
                 .and(AuctionSpecifications.isRegisterFinished())!!
                 .and(AuctionSpecifications.withCarModel(model))!!
                 .and(AuctionSpecifications.withMinFabricationYear(minFabricationYear))!!
+                .and(AuctionSpecifications.withMaxFabricationYear(maxFabricationYear))!!
                 .and(AuctionSpecifications.withMaxKm(maxKm))!!
+                .and(AuctionSpecifications.withMinKm(minKm))!!
                 .and(AuctionSpecifications.withCityId(cityId))!!
                 .and(AuctionSpecifications.withCarBrand(brand))!!
                 .and(AuctionSpecifications.withStateId(stateId))

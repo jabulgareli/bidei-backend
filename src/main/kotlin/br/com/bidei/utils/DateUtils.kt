@@ -11,14 +11,20 @@ object DateUtils {
     fun addMinutes(date: Timestamp, minutes: Int): Timestamp {
         val cal = Calendar.getInstance()
         cal.time = date
-        cal.add(Calendar.MINUTE, minutes)
         return Timestamp(cal.time.time)
     }
+
     fun addDays(date: Timestamp, days: Int): Timestamp {
         val cal = Calendar.getInstance()
         cal.time = date
         cal.add(Calendar.DAY_OF_YEAR, days)
         return Timestamp(cal.time.time)
+    }
+
+    fun getCurrentYear(): Int {
+        val cal = Calendar.getInstance()
+        cal.time = utcNow()
+       return cal.get(Calendar.YEAR)
     }
 
     fun utcNow(): Timestamp {
