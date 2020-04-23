@@ -134,11 +134,11 @@ class BidControllerImplTest(@Autowired private val walletStatementRepository: Wa
                             .contentType(MediaType.APPLICATION_JSON)
                             .header("customerId", validCustomer.id)
                             .content(gson.toJson(BidFactory.newValidBidRequest())))
-                            .andExpect(MockMvcResultMatchers.status().isAlreadyReported)
+                            .andExpect(MockMvcResultMatchers.status().isConflict)
                             .andReturn()
 
 
-        assertEquals("Already bidded this value", result.response.errorMessage)
+        assertEquals("Price has changed", result.response.errorMessage)
     }
 
     @Test
