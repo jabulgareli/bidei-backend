@@ -2,17 +2,17 @@ package br.com.bidei.customers.application.adapters
 
 import br.com.bidei.address.domain.model.City
 import br.com.bidei.address.domain.model.State
-import br.com.bidei.address.domain.repository.CitiesRepository
-import br.com.bidei.address.domain.repository.StatesRepository
+import br.com.bidei.address.domain.ports.repositories.CitiesRepository
+import br.com.bidei.address.domain.ports.repositories.StatesRepository
 import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
 import br.com.bidei.customers.domain.dto.CustomerDto
 import br.com.bidei.customers.domain.dto.CustomerUpdateDto
 import br.com.bidei.customers.domain.model.Customer
-import br.com.bidei.customers.domain.repository.CustomersRepository
+import br.com.bidei.customers.domain.ports.repositories.CustomersRepository
 import br.com.bidei.factories.CityFactory
 import br.com.bidei.factories.CustomerFactory
 import br.com.bidei.factories.StateFactory
-import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
+import br.com.bidei.wallet.domain.ports.repositories.WalletCustomerRepository
 import com.google.gson.Gson
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals

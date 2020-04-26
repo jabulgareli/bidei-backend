@@ -4,8 +4,7 @@ import br.com.bidei.auction.domain.model.Auction
 import java.math.BigDecimal
 import java.util.*
 import br.com.bidei.acl.ports.AuctionAclPort
-import br.com.bidei.auction.application.ports.AuctionService
-import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
+import br.com.bidei.auction.domain.ports.services.AuctionService
 import org.springframework.stereotype.Service
 
 @Service

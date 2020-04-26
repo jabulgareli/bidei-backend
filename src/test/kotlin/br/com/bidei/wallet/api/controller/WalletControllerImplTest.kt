@@ -1,17 +1,16 @@
 package br.com.bidei.wallet.api.controller
 
 import br.com.bidei.acl.ports.IntegrationsPaymentsAclPort
-import br.com.bidei.address.domain.repository.CitiesRepository
-import br.com.bidei.address.domain.repository.StatesRepository
+import br.com.bidei.address.domain.ports.repositories.CitiesRepository
+import br.com.bidei.address.domain.ports.repositories.StatesRepository
 import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
-import br.com.bidei.customers.domain.repository.CustomersRepository
+import br.com.bidei.customers.domain.ports.repositories.CustomersRepository
 import br.com.bidei.factories.*
 import br.com.bidei.integrations.payments.infrastructure.config.IuguConfig
 import br.com.bidei.integrations.payments.infrastructure.dto.IuguChargeRequest
-import br.com.bidei.integrations.payments.infrastructure.dto.IuguCustomerRequest
 import br.com.bidei.wallet.domain.dto.PaymentMethodsDto
-import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
-import br.com.bidei.wallet.domain.ports.repository.WalletStatementRepository
+import br.com.bidei.wallet.domain.ports.repositories.WalletCustomerRepository
+import br.com.bidei.wallet.domain.ports.repositories.WalletStatementRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.junit.jupiter.api.Assertions.*

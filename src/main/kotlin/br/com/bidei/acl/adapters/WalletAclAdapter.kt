@@ -2,7 +2,7 @@ package br.com.bidei.acl.adapters
 
 import br.com.bidei.acl.ports.WalletAclPort
 import br.com.bidei.customers.domain.model.Customer
-import br.com.bidei.wallet.application.ports.WalletService
+import br.com.bidei.wallet.domain.ports.services.WalletService
 import br.com.bidei.wallet.domain.dto.WalletAuctionPaymentTransactionDto
 import br.com.bidei.wallet.domain.dto.WalletBidDebitDto
 import br.com.bidei.wallet.domain.dto.WalletCouponCreditBidDto

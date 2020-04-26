@@ -1,6 +1,6 @@
 package br.com.bidei.acl.adapters
 
-import br.com.bidei.address.domain.repository.CitiesRepository
+import br.com.bidei.address.domain.ports.repositories.CitiesRepository
 import br.com.bidei.acl.ports.AddressAclPort
 import org.springframework.stereotype.Service
 

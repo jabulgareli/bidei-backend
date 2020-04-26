@@ -1,6 +1,6 @@
 package br.com.bidei.security.application.utils
 
-import br.com.bidei.customers.domain.repository.CustomersRepository
+import br.com.bidei.customers.domain.ports.repositories.CustomersRepository
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils

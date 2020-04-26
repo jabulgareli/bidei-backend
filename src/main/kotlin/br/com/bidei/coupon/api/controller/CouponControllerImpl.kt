@@ -1,7 +1,6 @@
 package br.com.bidei.coupon.api.controller
 
-import br.com.bidei.coupon.application.ports.CouponServicePort
-import br.com.bidei.coupon.domain.dto.CouponTransactionDto
+import br.com.bidei.coupon.domain.ports.services.CouponServicePort
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.*

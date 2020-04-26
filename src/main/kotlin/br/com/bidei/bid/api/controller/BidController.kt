@@ -2,12 +2,10 @@ package br.com.bidei.bid.api.controller
 
 import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.model.AuctionProductType
-import br.com.bidei.bid.application.dto.NewBidDto
+import br.com.bidei.bid.domain.dto.NewBidDto
 import br.com.bidei.bid.domain.dto.BidResponseDto
-import br.com.bidei.bid.domain.model.Bid
 import br.com.bidei.bid.domain.model.BidValue
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*

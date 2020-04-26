@@ -1,7 +1,7 @@
 package br.com.bidei.acl.adapters
 
 import br.com.bidei.acl.ports.BidAclPort
-import br.com.bidei.bid.domain.repository.BidRepository
+import br.com.bidei.bid.domain.ports.repositories.BidRepository
 import org.springframework.stereotype.Service
 import java.util.*
 

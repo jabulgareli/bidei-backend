@@ -1,10 +1,10 @@
 package br.com.bidei.wallet.application.adapters
 
-import br.com.bidei.wallet.application.ports.WalletStatementService
+import br.com.bidei.wallet.domain.ports.services.WalletStatementService
 import br.com.bidei.wallet.domain.dto.*
 import br.com.bidei.wallet.domain.model.WalletCustomer
 import br.com.bidei.wallet.domain.model.WalletStatement
-import br.com.bidei.wallet.domain.ports.repository.WalletStatementRepository
+import br.com.bidei.wallet.domain.ports.repositories.WalletStatementRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.math.BigDecimal

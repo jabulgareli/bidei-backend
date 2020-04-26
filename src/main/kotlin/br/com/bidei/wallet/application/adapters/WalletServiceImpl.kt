@@ -1,25 +1,23 @@
 package br.com.bidei.wallet.application.adapters
 
 import br.com.bidei.acl.ports.CouponAclPort
-import br.com.bidei.acl.ports.CustomersAclPort
 import br.com.bidei.acl.ports.IntegrationsPaymentsAclPort
 import br.com.bidei.cross.services.EntityOwnerServiceBase
 import br.com.bidei.customers.domain.model.Customer
 import br.com.bidei.integrations.payments.infrastructure.config.IuguConfig
 import br.com.bidei.integrations.payments.infrastructure.dto.*
 import br.com.bidei.utils.DateUtils
-import br.com.bidei.wallet.application.ports.WalletService
-import br.com.bidei.wallet.application.ports.WalletStatementService
+import br.com.bidei.wallet.domain.ports.services.WalletService
+import br.com.bidei.wallet.domain.ports.services.WalletStatementService
 import br.com.bidei.wallet.domain.dto.*
 import br.com.bidei.wallet.domain.exceptions.WalletNotFoundException
 import br.com.bidei.wallet.domain.model.WalletCustomer
-import br.com.bidei.wallet.domain.ports.repository.WalletCustomerRepository
+import br.com.bidei.wallet.domain.ports.repositories.WalletCustomerRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
 import java.util.*
 
 @Service

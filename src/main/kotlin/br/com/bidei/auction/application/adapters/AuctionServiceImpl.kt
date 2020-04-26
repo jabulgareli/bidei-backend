@@ -4,9 +4,8 @@ import br.com.bidei.acl.ports.AddressAclPort
 import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.exceptions.AuctionNotFoundException
-import br.com.bidei.auction.domain.exceptions.CityNotFoundException
 import br.com.bidei.auction.domain.exceptions.CustomerNotFoundException
-import br.com.bidei.auction.application.ports.AuctionService
+import br.com.bidei.auction.domain.ports.services.AuctionService
 import br.com.bidei.auction.domain.exceptions.AuctionAlreadyFinishedException
 import br.com.bidei.auction.domain.model.Auction
 import br.com.bidei.auction.domain.ports.repositories.AuctionRepository
@@ -19,10 +18,8 @@ import br.com.bidei.auction.domain.dto.PayAuctionDto
 import br.com.bidei.auction.domain.model.AuctionProductType
 import br.com.bidei.bid.domain.exception.PriceChangedException
 import br.com.bidei.cross.services.EntityOwnerServiceBase
-import br.com.bidei.utils.DateUtils
 import br.com.bidei.utils.jsonListOfAuctionCarOption
 import br.com.bidei.utils.jsonListOfStringType
-import br.com.bidei.utils.jsonMapOfStringType
 import br.com.bidei.wallet.domain.dto.WalletAuctionPaymentTransactionDto
 import com.google.gson.Gson
 import org.springframework.data.domain.Page

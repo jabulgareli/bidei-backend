@@ -1,8 +1,7 @@
 package br.com.bidei.wallet.api.controller
 
-import br.com.bidei.wallet.application.ports.WalletService
+import br.com.bidei.wallet.domain.ports.services.WalletService
 import br.com.bidei.wallet.domain.dto.*
-import br.com.bidei.wallet.domain.model.WalletStatement
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort

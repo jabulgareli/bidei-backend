@@ -1,7 +1,7 @@
 package br.com.bidei.auction.adapters
 
 import br.com.bidei.acl.ports.AddressAclPort
-import br.com.bidei.auction.application.ports.AuctionService
+import br.com.bidei.auction.domain.ports.services.AuctionService
 import br.com.bidei.auction.domain.exceptions.AuctionAlreadyFinishedException
 import br.com.bidei.auction.domain.exceptions.AuctionNotFoundException
 import br.com.bidei.auction.domain.model.Auction

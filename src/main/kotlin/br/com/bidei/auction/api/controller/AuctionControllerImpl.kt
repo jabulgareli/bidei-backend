@@ -3,7 +3,7 @@ package br.com.bidei.auction.api.controller
 import br.com.bidei.auction.domain.dto.AuctionDto
 import br.com.bidei.auction.domain.dto.AuctionPhotoDto
 import br.com.bidei.auction.domain.dto.CreateOrUpdateAuctionDto
-import br.com.bidei.auction.application.ports.AuctionService
+import br.com.bidei.auction.domain.ports.services.AuctionService
 import br.com.bidei.auction.domain.dto.PayAuctionDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
