@@ -6,10 +6,10 @@ import java.math.BigDecimal
 object BidFactory {
     val defaultBid = BigDecimal.valueOf(100)
 
-    fun newValidBidRequest() = NewBidDto(
+    fun newValidBidRequest(bidValue: BigDecimal? = null) = NewBidDto(
             CustomerFactory.customerId,
             AuctionFactory.validAuctionId,
-            defaultBid,
+            bidValue ?: defaultBid,
             AuctionFactory.defaultCarStartPrice
     )
 }

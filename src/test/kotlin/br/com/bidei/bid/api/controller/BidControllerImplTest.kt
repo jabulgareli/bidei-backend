@@ -28,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.math.BigDecimal
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -117,7 +118,7 @@ class BidControllerImplTest(@Autowired private val walletStatementRepository: Wa
 
     @Test
     @WithMockUser
-    fun `When bid and price has changed should receive CONFLICT`() {
+    fun `When bid duplicated should result ALREADY REPORTED`() {
         chargeWallet()
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/bid")
@@ -130,8 +131,30 @@ class BidControllerImplTest(@Autowired private val walletStatementRepository: Wa
                             .contentType(MediaType.APPLICATION_JSON)
                             .header("customerId", validCustomer.id)
                             .content(gson.toJson(BidFactory.newValidBidRequest())))
-                            .andExpect(MockMvcResultMatchers.status().isConflict)
+                            .andExpect(MockMvcResultMatchers.status().isAlreadyReported)
                             .andReturn()
+
+
+        assertEquals("Already bidded this value", result.response.errorMessage)
+    }
+
+    @Test
+    @WithMockUser
+    fun `When bid and price has changed should result CONFLICT`() {
+        chargeWallet()
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/bid")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("customerId", validCustomer.id)
+                .content(gson.toJson( BidFactory.newValidBidRequest())))
+                .andExpect(MockMvcResultMatchers.status().isCreated)
+
+        val result = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/bid")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("customerId", validCustomer.id)
+                .content(gson.toJson(BidFactory.newValidBidRequest(BidFactory.defaultBid.add(BigDecimal.TEN)))))
+                .andExpect(MockMvcResultMatchers.status().isConflict)
+                .andReturn()
 
 
         assertEquals("Price has changed", result.response.errorMessage)
