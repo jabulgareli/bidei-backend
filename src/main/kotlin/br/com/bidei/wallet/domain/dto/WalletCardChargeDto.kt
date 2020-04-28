@@ -21,7 +21,7 @@ data class WalletCardChargeDto(
 
         val quantity: BigDecimal,
 
-        val operationDescription: String = "Compra de BIDs em bidei.com.br"
+        val operationDescription: String = "Compra de BIDs"
 ) {
         fun getBidsQuantity(): BigDecimal {
                 return quantity
