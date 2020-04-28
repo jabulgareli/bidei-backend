@@ -11,6 +11,7 @@ object DateUtils {
     fun addMinutes(date: Timestamp, minutes: Int): Timestamp {
         val cal = Calendar.getInstance()
         cal.time = date
+        cal.add(Calendar.MINUTE, minutes)
         return Timestamp(cal.time.time)
     }
 

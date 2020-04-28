@@ -8,8 +8,8 @@ import java.util.*
 
 interface CustomersService {
     fun findById(id: UUID): Optional<Customer>
-    fun create(customer: CustomerDto): Customer
-    fun update(customer: CustomerUpdateDto): Customer
+    fun create(customerDto: CustomerDto): Customer
+    fun update(customerUpdateDto: CustomerUpdateDto): Customer
     fun findByEmail(email: String): CustomerProviderDto
     fun findByReferenceId(referenceId: String): Customer
 }

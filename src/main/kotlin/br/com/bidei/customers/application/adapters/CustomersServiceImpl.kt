@@ -30,33 +30,33 @@ class CustomersServiceImpl(
 
     private fun customerExistsByReferenceId(referenceId: String) = customersRepository.findByReferenceId(referenceId)
 
-    override fun create(customer: CustomerDto): Customer {
-        val city = addressAclPort.findCityById(customer.cityId)
+    override fun create(customerDto: CustomerDto): Customer {
+        val city = addressAclPort.findCityById(customerDto.cityId)
 
         if (!city.isPresent)
             throw CityNotFoundException()
 
-        if (!customer.isValidProvider())
+        if (!customerDto.isValidProvider())
             throw CustomerProviderNotFoundException()
 
-        if (customerExistsByReferenceId(customer.referenceId).isPresent)
+        if (customerExistsByReferenceId(customerDto.referenceId).isPresent)
             throw CustomerAlreadyRegisteredException()
 
-        if (customerExistsByEmail(customer.email).isPresent)
+        if (customerExistsByEmail(customerDto.email).isPresent)
             throw CustomerAlreadyRegisteredException()
 
-        val customer = customersRepository.save(customer.toCustomer(city.get()))
+        val customer = customersRepository.save(customerDto.toCustomer(city.get()))
 
         walletAclPort.create(customer)
 
         return customer
     }
 
-    override fun update(customer: CustomerUpdateDto): Customer {
-        val city = addressAclPort.findCityById(customer.cityId)
+    override fun update(customerUpdateDto: CustomerUpdateDto): Customer {
+        val city = addressAclPort.findCityById(customerUpdateDto.cityId)
         if (!city.isPresent) throw CityNotFoundException()
-        val updatedCustomer = customerExistsById(customer.customerId!!).get()
-        updatedCustomer.name = customer.name
+        val updatedCustomer = customerExistsById(customerUpdateDto.customerId!!).get()
+        updatedCustomer.name = customerUpdateDto.name
         updatedCustomer.city = city.get()
         return customersRepository.save(updatedCustomer)
     }
