@@ -1,7 +1,7 @@
 package br.com.bidei.integrations.vehicles.infrastructure.adapters
 
 import br.com.bidei.integrations.vehicles.infrastructure.config.KbbConfig
-import br.com.bidei.integrations.vehicles.infrastructure.ports.VehiclesApiKbbPort
+import br.com.bidei.integrations.vehicles.domain.ports.services.VehiclesApiKbbPort
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient

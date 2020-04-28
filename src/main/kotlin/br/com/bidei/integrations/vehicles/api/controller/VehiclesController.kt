@@ -1,5 +1,7 @@
-package br.com.bidei.integrations.vehicles.application.ports
+package br.com.bidei.integrations.vehicles.api.controller
 
+import br.com.bidei.integrations.vehicles.domain.dto.CarPriceResultDto
+import br.com.bidei.integrations.vehicles.domain.dto.VehiclePricesDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
@@ -28,7 +30,7 @@ interface VehiclesController {
     fun grades(): ResponseEntity<String>
 
     @GetMapping("/prices")
-    fun prices(vehicleId: Int, vehiclePriceTypeID: Int): ResponseEntity<String>
+    fun prices(vehicleId: Int, vehiclePriceTypeID: Int): ResponseEntity<List<CarPriceResultDto>>
 
     @GetMapping("/fuel-types")
     fun fuelTypes(): ResponseEntity<String>

@@ -1,7 +1,8 @@
-package br.com.bidei.integrations.vehicles.application.adapters
+package br.com.bidei.integrations.vehicles.api.controller
 
-import br.com.bidei.integrations.vehicles.application.ports.VehiclesController
-import br.com.bidei.integrations.vehicles.application.services.VehiclesService
+import br.com.bidei.integrations.vehicles.domain.dto.CarPriceResultDto
+import br.com.bidei.integrations.vehicles.domain.dto.VehiclePricesDto
+import br.com.bidei.integrations.vehicles.domain.ports.services.VehiclesService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -27,8 +28,8 @@ class VehiclesControllerImpl(private val vehiclesService: VehiclesService) : Veh
     override fun grades(): ResponseEntity<String> =
             ResponseEntity.ok(vehiclesService.grades().toString())
 
-    override fun prices(vehicleId: Int, vehiclePriceTypeID: Int): ResponseEntity<String> =
-            ResponseEntity.ok(vehiclesService.prices(vehicleId, vehiclePriceTypeID).toString())
+    override fun prices(vehicleId: Int, vehiclePriceTypeID: Int): ResponseEntity<List<CarPriceResultDto>> =
+            ResponseEntity.ok(vehiclesService.prices(vehicleId, vehiclePriceTypeID))
 
     override fun fuelTypes(): ResponseEntity<String> = ResponseEntity.ok(vehiclesService.fuelTypes().toString())
 

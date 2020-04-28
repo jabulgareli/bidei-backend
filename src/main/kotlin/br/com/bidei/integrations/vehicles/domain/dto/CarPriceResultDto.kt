@@ -9,12 +9,17 @@ data class CarPriceResultDto(
 )
 
 data class VehiclePricesDto(
-        val BaseDiscountedPrice: BigDecimal? = BigDecimal.ZERO,
-        val EquipmentAdjustedPrice: BigDecimal = BigDecimal.ZERO,
-        val FPP: BigDecimal = BigDecimal.ZERO,
-        val ID: Int,
-        val PriceHigh: BigDecimal = BigDecimal.ZERO,
-        val PriceLow: BigDecimal = BigDecimal.ZERO,
-        val PriceSuggestion: BigDecimal = MathUtils.round(PriceLow.divide(BigDecimal.valueOf(100)), 2)
-                                                   .multiply(BigDecimal.valueOf(100))
-)
+        val PaseDiscountedPrice: BigDecimal? = BigDecimal.ZERO,
+        val EquipmentAdjustedPrice: BigDecimal? = BigDecimal.ZERO,
+        val FPP: BigDecimal? = BigDecimal.ZERO,
+        val Id: Int,
+        val PriceHigh: BigDecimal? = BigDecimal.ZERO,
+        val PriceLow: BigDecimal? = BigDecimal.ZERO,
+        var PriceSuggestion: BigDecimal? = BigDecimal.ZERO
+){
+    fun calcPriceSuggestion(){
+        PriceSuggestion = MathUtils.round(PriceLow!!.multiply(BigDecimal.valueOf(0.9))
+                                                    .divide(BigDecimal.valueOf(1000)), 2)
+                                   .multiply(BigDecimal.valueOf(1000))
+    }
+}

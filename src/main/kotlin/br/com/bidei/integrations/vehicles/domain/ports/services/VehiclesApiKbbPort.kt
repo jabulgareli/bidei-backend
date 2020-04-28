@@ -1,4 +1,4 @@
-package br.com.bidei.integrations.vehicles.infrastructure.ports
+package br.com.bidei.integrations.vehicles.domain.ports.services
 
 interface VehiclesApiKbbPort {
     fun getAllVehicleBrand(): String?
